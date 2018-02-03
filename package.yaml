@@ -1,34 +1,33 @@
 name:                haskell-aoc
 version:             0.1.0.0
-github:              "githubuser/haskell-aoc"
+github:              "rolandtritsch/haskell-aoc-2017"
 license:             BSD3
-author:              "Author name here"
-maintainer:          "example@example.com"
-copyright:           "2018 Author name here"
+author:              "Roland Tritsch"
+maintainer:          "roland@gonitro.om"
+copyright:           "2018 Roland Tritsch"
 
 extra-source-files:
 - README.md
-- ChangeLog.md
 
 # Metadata used when publishing your package
-# synopsis:            Short description of your package
-# category:            Web
+synopsis:            An implementation of the Advent of Code - 2017
+category:            Web
 
 # To avoid duplicated efforts in documentation and dealing with the
 # complications of embedding Haddock markup inside cabal files, it is
 # common to point users to the README.md file.
-description:         Please see the README on Github at <https://github.com/githubuser/haskell-aoc#readme>
+description:         Please see the README on Github at <https://github.com/rolandtritsch/haskell-aoc-2017#README.md>
 
 dependencies:
 - base >= 4.7 && < 5
 
 library:
-  source-dirs: src
+  source-dirs:       src
 
 executables:
-  haskell-aoc-exe:
-    main:                Main.hs
-    source-dirs:         app
+  haskell-aoc:
+    main:            Main.hs
+    source-dirs:     app
     ghc-options:
     - -threaded
     - -rtsopts
@@ -38,11 +37,12 @@ executables:
 
 tests:
   haskell-aoc-test:
-    main:                Spec.hs
-    source-dirs:         test
+    main:            Spec.hs
+    source-dirs:     test
     ghc-options:
     - -threaded
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
     - haskell-aoc
+    - hspec

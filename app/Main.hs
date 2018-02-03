@@ -1,6 +1,9 @@
 module Main where
 
-import Lib
+import Text.Printf
+
+import Day01
 
 main :: IO ()
-main = someFunc
+main = do
+  printf "Day01: Part1: Captcha -> %d\n" (Day01.captcha 0)

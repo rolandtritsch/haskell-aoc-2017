@@ -1,0 +1,15 @@
+language: haskell
+
+notifications:
+  email:
+    recipients:
+      - roland@tritsch.org
+    on_success: always
+    on_failure: always
+
+before_install:
+
+script:
+  - stack test
+  - stack build
+  - stack exec haskell-aoc

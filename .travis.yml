@@ -8,6 +8,7 @@ notifications:
     on_failure: always
 
 before_install:
+  - curl -sSL https://get.haskellstack.org/ | sh
 
 script:
   - stack test

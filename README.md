@@ -1,4 +1,4 @@
-# Advent of Code - 2017 (Haskell Edition)
+# [Advent of Code](https://adventofcode.com) - 2017 (Haskell Edition)
 
 At least Day01 :).
 

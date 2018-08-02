@@ -2,12 +2,10 @@
 module Day01 where
 
 import Data.Char (digitToInt)
-import System.IO.Unsafe
+import Util (inputRaw)
 
 input :: String
-input = do
-  let contents = unsafePerformIO $ readFile "input/Day01input.txt"
-  take (length contents - 1) contents
+input = inputRaw "input/Day01input.txt"
 
 -- |`captcha` returns the captcha for the given number.
 -- Algorithm goes like this ...

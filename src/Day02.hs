@@ -20,15 +20,3 @@ import Util (inputRaw)
 -- | read the input
 input :: [[Int]]
 input = (map $ map (read :: String -> Int) . splitOn "\t") (inputRaw "input/Day02input.txt")
-
--- | calculate the checksum for every row
-checksums :: [[Int]] -> [Int]
-checksums rows = map process rows where
-  process :: [Int] -> Int
-  process row = maximum row - minimum row
-
--- | calculate the evenlyDivisible for every row
-evenlyDivisible :: [[Int]] -> [Int]
-evenlyDivisible rows = map process rows where
-    process :: [Int] -> Int
-    process row = head [div x y | x <- row, y <- row, x > y, mod x y == 0]

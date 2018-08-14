@@ -69,21 +69,6 @@ data Cell = Cell {
   position :: Position
   } deriving (Show, Eq)
 
--- | generate an endless/lazy list/stream of cells (with foldl; not working)
-cells' :: [Move] -> [Cell]
-cells' ms = foldl appendCell [Cell 1 (0, 0)] ms where
-  appendCell :: [Cell] -> Move -> [Cell]
-  appendCell cs m = cs ++ [Cell ((value previousCell) + 1) (nextPosition (position previousCell) (moveOffset m))] where
-      previousCell = last cs
-
--- | generate an endless/lazy list/stream of cells (recursion; working)
-cells :: [Move] -> [Cell]
-cells ms = centerCell : go centerCell ms where
-  centerCell = Cell 1 (0, 0)
-  go previousCell [] = error "Opps. Moves is suppose to be infinite."
-  go previousCell (m:ms) = currentCell : go currentCell ms where
-    currentCell = Cell ((value previousCell) + 1) (nextPosition (position previousCell) (moveOffset m))
-
 -- | calculate the manhatten distance for a cell
 distance :: Cell -> Int
 distance (Cell _ (x, y)) = abs x + abs y

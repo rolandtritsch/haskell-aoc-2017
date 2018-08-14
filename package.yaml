@@ -25,6 +25,7 @@ library:
   source-dirs:       src
   dependencies:
   - split
+  - containers
 
 executables:
   haskell-aoc:

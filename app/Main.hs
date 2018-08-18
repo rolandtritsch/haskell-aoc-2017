@@ -9,6 +9,9 @@ import qualified Day02.Part2 as D02P2
 import Day03
 import qualified Day03.Part1 as D03P1
 import qualified Day03.Part2 as D03P2
+import Day04
+import qualified Day04.Part1 as D04P1
+import qualified Day04.Part2 as D04P2
 
 main :: IO ()
 main = do
@@ -18,3 +21,5 @@ main = do
   printf "Day02: Part2: evenly -> %d\n" (D02P2.solve Day02.input)
   printf "Day03: Part1: lookup -> %d\n" (D03P1.solve Day03.input)
   printf "Day03: Part2: find -> %d\n" (D03P2.solve Day03.input)
+  printf "Day04: Part1: simple -> %d\n" (D04P1.solve Day04.input)
+  printf "Day04: Part2: complex -> %d\n" (D04P2.solve Day04.input)

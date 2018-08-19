@@ -26,6 +26,7 @@ library:
   dependencies:
   - split
   - containers
+  - Unique
 
 executables:
   haskell-aoc:

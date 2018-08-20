@@ -3,6 +3,10 @@ module Day05.Part1 where
 
 import Day05
 
+-- | the offset for Part1
+offset :: Int -> Int
+offset counter = counter + 1
+
 -- | solve the puzzle.
-solve :: [Int] -> Int
-solve input = 0
+solve :: Stack -> Int
+solve input = jump input 0 offset 0

@@ -32,7 +32,7 @@ main = do
   printf "Day05: Part1: countsteps -> %d\n" (D05P1.solve Day05.input)
   printf "Day05: Part2: countsteps -> %d\n" (D05P2.solve Day05.input)
   printf "Day06: Part1: cycles -> %d\n" (D06P1.solve Day06.input)
-  printf "Day06: Part2: cycles -> %d\n" (D06P2.solve Day06.input)
+  --printf "Day06: Part2: cycles -> %d\n" (D06P2.solve Day06.input)
 
 {--
     println(s"Day06: Part1: cycles -> ${Day06.Part1.solve(Day06.input)}")

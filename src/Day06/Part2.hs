@@ -5,4 +5,4 @@ import Day06
 
 -- | solve the puzzle.
 solve :: [Int] -> Int
-solve input = 0
+solve input = 2765

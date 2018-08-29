@@ -104,7 +104,7 @@ findBadNode n@(Node _ w _ cs)
 
 -- | for a given (bad) node, return the correct weight
 correctWeight :: Element -> Int
-correctWeight badNode = (weight bad) - (calcWeight bad) - (calcWeight good) where
+correctWeight badNode = (weight bad) - ((calcWeight bad) - (calcWeight good)) where
   histo = group $ sort $ map calcWeight (children badNode)
   goodWeight = head $ fromJust $ find (\ws -> (length ws) > 1) histo
   badWeight = head $ fromJust $ find (\ws -> (length ws) == 1) histo

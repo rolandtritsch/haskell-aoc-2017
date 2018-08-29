@@ -33,8 +33,7 @@ run = hspec $ do
 
   describe "correctWeight" $ do
     it "should return the correct weight for a/the bad node" $ do
-      --correctWeight (findBadNode (build input Root (findRoot input))) `shouldBe` 596
-      correctWeight (findBadNode (build input Root (findRoot input))) `shouldBe` -3728 -- wrong
+      correctWeight (findBadNode (build input Root (findRoot input))) `shouldBe` 596
 
   describe "solve - Part1" $ do
     it "should solve the puzzle" $ do

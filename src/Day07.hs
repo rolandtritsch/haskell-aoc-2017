@@ -39,8 +39,7 @@ input :: [ParseElement]
 input = map parser $ inputRaw "input/Day07input.txt" where
   parser line
     | isNode line = parseNode line
-    | otherwise = parseLeaf line
-    where
+    | otherwise = parseLeaf line where
       isNode line = isInfixOf "->" line
       parseNode line = ParseNode (tokens !! 0) (read $ tokens !! 1) (drop 2 tokens) where
         -- kozpul (59) -> shavjjt, anujsv, tnzvo
@@ -51,9 +50,9 @@ input = map parser $ inputRaw "input/Day07input.txt" where
 
 -- | find the root element
 findRoot :: [ParseElement] -> String
-findRoot tree = head (allNames \\ allChildNames) where
+findRoot tree = head $ allNames \\ allChildNames where
   allNames = map pname tree
-  allChildNames = concat $ map getCs tree where
+  allChildNames = concatMap getCs tree where
     getCs (ParseNode _ _ pcs) = pcs
     getCs (ParseLeaf _ _) = []
 
@@ -86,7 +85,7 @@ calcWeight Root = error "This should not happen"
 calcWeight (Leaf _ w _) = w
 calcWeight (Node _ w _ cs) = w + (sum $ map calcWeight cs)
 
--- | check, if the (sub)tree is balanced (and it is, if all children have the same weight)
+-- | check, if the (sub)tree is balanced (if all children have the same weight)
 isBalanced :: Element -> Bool
 isBalanced Root = error "This should not happen"
 isBalanced (Leaf _ _ _) = True
@@ -98,15 +97,14 @@ isBalanced (Node _ w _ cs) = all (\c -> (calcWeight c) == checkWeight) cs where
 findBadNode :: Element -> Element
 findBadNode Root = error "This should not happen"
 findBadNode (Leaf _ _ _) = error "This should not happen"
-findBadNode n@(Node _ w _ cs)
-  | not (isBalanced n) && all isBalanced (children n) = n
-  | otherwise = findBadNode $ fromJust $ find (\c -> not (isBalanced c)) (children n)
+findBadNode n@(Node _ _ _ cs)
+  | not (isBalanced n) && all isBalanced cs = n
+  | otherwise = findBadNode $ fromJust $ find (\c -> not (isBalanced c)) cs
 
 -- | for a given (bad) node, return the correct weight
 correctWeight :: Element -> Int
-correctWeight badNode = (weight bad) - ((calcWeight bad) - (calcWeight good)) where
+correctWeight badNode = (weight bad) - (badWeight - goodWeight) where
   histo = group $ sort $ map calcWeight (children badNode)
   goodWeight = head $ fromJust $ find (\ws -> (length ws) > 1) histo
   badWeight = head $ fromJust $ find (\ws -> (length ws) == 1) histo
-  good = fromJust $ find (\c -> (calcWeight c) == goodWeight) (children badNode)
   bad = fromJust $ find (\c -> (calcWeight c) == badWeight) (children badNode)

@@ -16,69 +16,46 @@ different to the other ones) and calc you to correct it.
 -}
 module Day07 where
 
-import Data.List (isInfixOf, (\\), find, group, sort)
+import Data.List (isInfixOf, (\\))
 import Data.List.Split (splitOneOf)
 import Data.Maybe (fromJust)
 
+import Data.Tree
+import qualified Data.Map as M
+
 import Util (inputRaw)
 
--- | the parsing tree (not linked; just strings)
-data ParseElement =
-  ParseNode {
-    pname :: String,
-    pweight :: Int,
-    pchildren :: [String]
-  } |
-  ParseLeaf {
-    pname :: String,
-    pweight :: Int
-  } deriving (Eq, Show)
+-- | need that map to build the Tree
+type NodeName = String
+type NodeStruct = (Int, [NodeName])
+type NodeMap = M.Map NodeName NodeStruct
 
 -- | read the input
-input :: [ParseElement]
-input = map parser $ inputRaw "input/Day07input.txt" where
+input :: NodeMap
+input = M.fromList $ map parser $ inputRaw "input/Day07input.txt" where
   parser line
     | isNode line = parseNode line
     | otherwise = parseLeaf line where
       isNode line = isInfixOf "->" line
-      parseNode line = ParseNode (tokens !! 0) (read $ tokens !! 1) (drop 2 tokens) where
+      parseNode line = ((tokens !! 0), ((read $ tokens !! 1), (drop 2 tokens))) where
         -- kozpul (59) -> shavjjt, anujsv, tnzvo
         tokens = filter ((/=) "") $ splitOneOf "(),-> " line
-      parseLeaf line = ParseLeaf (tokens !! 0) (read $ tokens !! 1) where
+      parseLeaf line = ((tokens !! 0), ((read $ tokens !! 1), [])) where
         -- occxa (60)
         tokens = filter ((/=) "") $ splitOneOf "() " line
 
 -- | find the root element
-findRoot :: [ParseElement] -> String
-findRoot tree = head $ allNames \\ allChildNames where
-  allNames = map pname tree
-  allChildNames = concatMap getCs tree where
-    getCs (ParseNode _ _ pcs) = pcs
-    getCs (ParseLeaf _ _) = []
+findRoot :: NodeMap -> NodeName
+findRoot allNodes = head $ allNames \\ allChildNames where
+  allNames = M.keys allNodes
+  allChildNames = concatMap snd $ M.elems allNodes
 
--- | the element tree (linked; recursive)
-data Element =
-  Node {
-    name :: String,
-    weight :: Int,
-    parent :: Element,
-    children :: [Element]
-  } |
-  Leaf {
-    name :: String,
-    weight :: Int,
-    parent :: Element
-  } |
-  Root
-  deriving (Eq, Show)
+-- | build a/the tree. Use the node map and a/the root name. Return the root element
+build :: NodeMap -> NodeName -> Tree Int
+build allNodes root = unfoldTree buildTree root where
+  buildTree name = allNodes M.! name
 
--- | build a/the tree. Use the parsetree and a/the root name. Return the root element
-build :: [ParseElement] -> Element -> String -> Element
-build parseTree parent elementName = go findElement where
-  findElement = fromJust $ find (\pe -> elementName == (pname pe)) parseTree
-  go (ParseLeaf pn pw) = Leaf pn pw parent
-  go (ParseNode pn pw pcs) = Node pn pw parent (map (build parseTree parent) pcs)
-
+{--
 -- | calc the weight of a given element (by suming up the weight of the subtree)
 calcWeight :: Element -> Int
 calcWeight Root = error "This should not happen"
@@ -108,3 +85,4 @@ correctWeight badNode = (weight bad) - (badWeight - goodWeight) where
   goodWeight = head $ fromJust $ find (\ws -> (length ws) > 1) histo
   badWeight = head $ fromJust $ find (\ws -> (length ws) == 1) histo
   bad = fromJust $ find (\c -> (calcWeight c) == badWeight) (children badNode)
+--}

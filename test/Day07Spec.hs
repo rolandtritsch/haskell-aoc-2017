@@ -3,6 +3,12 @@ module Day07Spec where
 
 import Test.Hspec
 
+import Data.Maybe (fromJust)
+import qualified Data.Map as M
+
+import Data.Tree
+import qualified Data.Tree as T
+
 import Day07
 import qualified Day07.Part1 as P1
 import qualified Day07.Part2 as P2
@@ -11,13 +17,13 @@ run :: IO ()
 run = hspec $ do
   describe "input" $ do
     it "should read the (raw) input" $ do
-      input !! 0 `shouldBe` ParseLeaf "occxa" 60
-      input !! 1 `shouldBe` ParseNode "kozpul" 59 ["shavjjt","anujsv","tnzvo"]
+      (fromJust $ M.lookup "occxa" input) `shouldBe` (60, [])
+      (fromJust $ M.lookup "kozpul" input) `shouldBe` (59, ["shavjjt","anujsv","tnzvo"])
 
+{--
   describe "build" $ do
     it "should build the tree" $ do
-      name (build input Root (findRoot input)) `shouldBe` "uownj"
-      map name (children (build input Root (findRoot input))) `shouldBe` ["wqdviv", "ctmydr", "pxdnb", "qipooo", "aazgvmc", "eidmwnu"]
+      build input (findRoot input) `shouldBe` (Node 0 [])
 
   describe "calcWeight" $ do
     it "should calculate the right weight" $ do
@@ -34,6 +40,7 @@ run = hspec $ do
   describe "correctWeight" $ do
     it "should return the correct weight for a/the bad node" $ do
       correctWeight (findBadNode (build input Root (findRoot input))) `shouldBe` 596
+--}
 
   describe "solve - Part1" $ do
     it "should solve the puzzle" $ do

@@ -20,11 +20,10 @@ run = hspec $ do
       (fromJust $ M.lookup "occxa" input) `shouldBe` (60, [])
       (fromJust $ M.lookup "kozpul" input) `shouldBe` (59, ["shavjjt","anujsv","tnzvo"])
 
-{--
   describe "build" $ do
     it "should build the tree" $ do
-      build input (findRoot input) `shouldBe` (Node 0 [])
-
+      (head $ levels $ build input (findRoot input)) `shouldBe` [12]
+{--
   describe "calcWeight" $ do
     it "should calculate the right weight" $ do
       calcWeight (build input Root (findRoot input)) `shouldBe` 387014

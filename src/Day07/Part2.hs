@@ -5,5 +5,4 @@ import Day07
 
 -- | solve the puzzle.
 solve :: NodeMap -> Int
--- solve input = correctWeight (findBadNode (build input Root (findRoot input)))
-solve input = 596
+solve input = correctWeight $ findBadNode $ build input $ findRoot input

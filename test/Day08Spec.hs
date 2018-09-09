@@ -13,7 +13,7 @@ run :: IO ()
 run = hspec $ do
   describe "input" $ do
     it "should read the (raw) input" $ do
-      head input `shouldBe` (Instruction "g" "dec" 231 "bfx" ">" (negate 10))
+      map register (take 5 input) `shouldBe` ["g","k","jq","sh","w"]
 
   describe "doIt" $ do
     it "should map the first 5 correctly" $ do

@@ -21,7 +21,7 @@ run = hspec $ do
 
   describe "exec" $ do
     it "should fold the first 5 correctly" $ do
-      foldl exec M.empty (take 5 input) `shouldBe` M.fromList [("g",-231),("jq",880),("k",567),("sh",0),("w",595)]
+      foldl exec M.empty (take 5 input) `shouldBe` M.fromList [("g",-231),("jq",880),("k",567),("w",595)]
 
   describe "solve - Part1" $ do
     it "should solve the puzzle" $ do

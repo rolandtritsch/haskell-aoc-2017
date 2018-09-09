@@ -48,6 +48,7 @@ input = map parser $ inputRaw "input/Day08input.txt" where
     cond = tokens !! 4
     coped = read $ tokens !! 5
 
+-- | test, if the instruction is to be executed
 doIt :: Registers -> Instruction -> Bool
 doIt rs (Instruction _ _ _ creg "==" coped) = (M.findWithDefault 0 creg rs) == coped
 doIt rs (Instruction _ _ _ creg "!=" coped) = (M.findWithDefault 0 creg rs) /= coped
@@ -56,10 +57,11 @@ doIt rs (Instruction _ _ _ creg ">" coped) = (M.findWithDefault 0 creg rs) > cop
 doIt rs (Instruction _ _ _ creg "<=" coped) = (M.findWithDefault 0 creg rs) <= coped
 doIt rs (Instruction _ _ _ creg ">=" coped) = (M.findWithDefault 0 creg rs) >= coped
 
+-- | exec a given instruction on the registers (and return the updated registers)
 exec :: Registers -> Instruction -> Registers
-exec rs i@(Instruction reg "inc" _  _ _ _) = M.insert reg (updatedValue rs i (doIt rs i)) rs where
-  updatedValue rs i@(Instruction reg _ oped _ _ _) True = (M.findWithDefault 0 reg rs) + oped
-  updatedValue rs i@(Instruction reg _ _ _ _ _) False = (M.findWithDefault 0 reg rs)
-exec rs i@(Instruction reg "dec" _  _ _ _) = M.insert reg (updatedValue rs i (doIt rs i)) rs where
-  updatedValue rs i@(Instruction reg _ oped _ _ _) True = (M.findWithDefault 0 reg rs) - oped
-  updatedValue rs i@(Instruction reg _ _ _ _ _) False = (M.findWithDefault 0 reg rs)
+exec rs i@(Instruction reg "inc" oped _ _ _)
+  | doIt rs i = M.insert reg ((M.findWithDefault 0 reg rs) + oped) rs
+  | otherwise = rs
+exec rs i@(Instruction reg "dec" oped _ _ _)
+  | doIt rs i = M.insert reg ((M.findWithDefault 0 reg rs) - oped) rs
+  | otherwise = rs

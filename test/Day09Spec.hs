@@ -15,7 +15,7 @@ run = hspec $ do
 
   describe "transition" $ do
     it "should be able to process the input" $ do
-      foldl transition (InGroup 0 0 0) input `shouldBe` (InGroup 0 10800 4522)
+      foldl transition (InGroup 0 (Stats 0 0)) input `shouldBe` (InGroup 0 (Stats 10800 4522))
 
   describe "solve - Part1" $ do
     it "should solve the puzzle" $ do

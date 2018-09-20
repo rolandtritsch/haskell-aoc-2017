@@ -5,5 +5,5 @@ import Day09
 
 -- | solve the puzzle
 solve :: String -> Int
-solve input = chars $ foldl transition (InGroup 0 0 0) input where
-  chars (InGroup 0 _ cs) = cs
+solve input = getChars $ foldl transition (InGroup 0 (Stats 0 0)) input where
+  getChars (InGroup 0 s) = numOfChars s

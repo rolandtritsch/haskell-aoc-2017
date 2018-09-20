@@ -5,5 +5,5 @@ import Day09
 
 -- | solve the puzzle
 solve :: String -> Int
-solve input = score $ foldl transition (InGroup 0 0 0) input where
-  score (InGroup 0 s _) = s
+solve input = getScore $ foldl transition (InGroup 0 (Stats 0 0)) input where
+  getScore (InGroup 0 s) = score s

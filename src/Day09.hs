@@ -22,15 +22,22 @@ module Day09 where
 
 import Util
 
--- | read the input
-input :: String
+type Event = Char
+
+-- | read the input (as a stream of chars/events)
+input :: [Event]
 input = head $ inputRaw "input/Day09input.txt"
 
-type Level = Int
+-- | define a simple finite state machine
+type FSM state event = state -> event -> IO state
+
+-- | all of the stats I want to collect, while processing the stream
 data Stats = Stats {
   score :: Int,
   numOfChars :: Int
   } deriving (Eq, Show)
+
+type Level = Int
 
 -- | all of the states (according to the diagram)
 data State
@@ -39,13 +46,13 @@ data State
   | InCanceled Level Stats
   deriving (Eq, Show)
 
--- | transition to the next state (according to the diagram)
-transition :: State -> Char -> State
-transition (InGroup level stats) '{' = InGroup (level + 1) stats
-transition (InGroup level (Stats score chars)) '}' = InGroup (level - 1) (Stats (score + level) chars)
-transition (InGroup level stats) '<' = InGarbage level stats
-transition (InGroup level stats) _ = InGroup level stats
-transition (InGarbage level stats) '>' = InGroup level stats
-transition (InGarbage level stats) '!' = InCanceled level stats
-transition (InGarbage level (Stats score chars)) _ = InGarbage level (Stats score (chars + 1))
-transition (InCanceled level stats) _ = InGarbage level stats
+-- | process a given event/char
+processEvent :: FSM State Event
+processEvent (InGroup level stats) '{' = return (InGroup (level + 1) stats)
+processEvent (InGroup level (Stats score chars)) '}' = return (InGroup (level - 1) (Stats (score + level) chars))
+processEvent (InGroup level stats) '<' = return (InGarbage level stats)
+processEvent (InGroup level stats) _ = return (InGroup level stats)
+processEvent (InGarbage level stats) '>' = return (InGroup level stats)
+processEvent (InGarbage level stats) '!' = return (InCanceled level stats)
+processEvent (InGarbage level (Stats score chars)) _ = return (InGarbage level (Stats score (chars + 1)))
+processEvent (InCanceled level stats) _ = return (InGarbage level stats)

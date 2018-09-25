@@ -9,8 +9,9 @@ import Day09
 
 -- | solve the puzzle
 solve :: String -> Int
-solve input = getScore $ unsafePerformIO $ foldM processEvent (InGroup 0 (Stats 0 0)) input where
+solve events = getScore $ unsafePerformIO $ foldM processEvent (InGroup 0 (Stats 0 0)) events where
   getScore (InGroup 0 s) = score s
+  getScore _ = error "Unexpected match"
 
 -- | decorate the FSM with logging
 withLogging :: (Show s, Show e) => FSM s e -> FSM s e
@@ -21,5 +22,6 @@ withLogging fsm s e = do
 
 -- | solve the puzzle (debug version)
 solve' :: String -> Int
-solve' input = getScore $ unsafePerformIO $ foldM (withLogging processEvent) (InGroup 0 (Stats 0 0)) input where
+solve' events = getScore $ unsafePerformIO $ foldM (withLogging processEvent) (InGroup 0 (Stats 0 0)) events where
   getScore (InGroup 0 s) = score s
+  getScore _ = error "Unexpected match"

@@ -49,10 +49,10 @@ data State
 -- | process a given event/char
 processEvent :: FSM State Event
 processEvent (InGroup level stats) '{' = return (InGroup (level + 1) stats)
-processEvent (InGroup level (Stats score chars)) '}' = return (InGroup (level - 1) (Stats (score + level) chars))
+processEvent (InGroup level (Stats score' chars)) '}' = return (InGroup (level - 1) (Stats (score' + level) chars))
 processEvent (InGroup level stats) '<' = return (InGarbage level stats)
 processEvent (InGroup level stats) _ = return (InGroup level stats)
 processEvent (InGarbage level stats) '>' = return (InGroup level stats)
 processEvent (InGarbage level stats) '!' = return (InCanceled level stats)
-processEvent (InGarbage level (Stats score chars)) _ = return (InGarbage level (Stats score (chars + 1)))
+processEvent (InGarbage level (Stats score' chars)) _ = return (InGarbage level (Stats score' (chars + 1)))
 processEvent (InCanceled level stats) _ = return (InGarbage level stats)

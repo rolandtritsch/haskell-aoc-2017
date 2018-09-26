@@ -25,6 +25,7 @@ library:
   source-dirs:       src
   ghc-options:
     - -Wall
+    - -Werror
   dependencies:
   - split
   - containers

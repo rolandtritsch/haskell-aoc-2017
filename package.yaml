@@ -24,8 +24,8 @@ dependencies:
 library:
   source-dirs:       src
   ghc-options:
-    - -Wall
-    - -Werror
+  - -Wall
+  - -Werror
   dependencies:
   - text
   - split

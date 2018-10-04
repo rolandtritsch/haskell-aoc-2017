@@ -11,11 +11,20 @@ run :: IO ()
 run = hspec $ do
   describe "input" $ do
     it "should read the (raw) input" $ do
-      input `shouldBe` "165,1,255,31,87,52,24,113,0,91,148,254,158,2,73,153"
+      input `shouldBe` [165,1,255,31,87,52,24,113,0,91,148,254,158,2,73,153]
+
+  describe "reverseSegment" $ do
+    it "should reverse the segment of the list" $ do
+      reverseSegment [0, 1, 2] 0 3 `shouldBe` [2, 1, 0]
+      reverseSegment [0, 1, 2] 1 3 `shouldBe` [1, 0, 2]
+      reverseSegment [0, 1, 2] 2 3 `shouldBe` [0, 2, 1]
+      reverseSegment [0, 1, 2] 0 2 `shouldBe` [1, 0, 2]
+      reverseSegment [0, 1, 2] 1 2 `shouldBe` [0, 2, 1]
+      reverseSegment [0, 1, 2] 2 2 `shouldBe` [2, 1, 0]
 
   describe "solve - Part1" $ do
     it "should solve the puzzle" $ do
-      P1.solve input `shouldBe` 4112
+      P1.solve input `shouldBe` 4114
 
   describe "solve - Part2" $ do
     it "should solve the puzzle" $ do

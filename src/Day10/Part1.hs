@@ -4,5 +4,5 @@ module Day10.Part1 where
 import Day10
 
 -- | solve the puzzle
-solve :: String -> Int
-solve input' = 4112
+solve :: [Length] -> Int
+solve lengths = foldl (*) 1 $ take 2 $ knot lengths

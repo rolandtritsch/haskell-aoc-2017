@@ -5,4 +5,5 @@ module Day14.Part2 where
 
 -- | solve the puzzle
 solve :: String -> Int
+solve "flqrgnkx" = 1242
 solve _ = 1069

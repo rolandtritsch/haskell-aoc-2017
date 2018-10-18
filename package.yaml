@@ -3,7 +3,7 @@ version:             0.1.0.0
 github:              "rolandtritsch/haskell-aoc-2017"
 license:             BSD3
 author:              "Roland Tritsch"
-maintainer:          "roland@gonitro.om"
+maintainer:          "roland@tritsch.org"
 copyright:           "2018 Roland Tritsch"
 
 extra-source-files:

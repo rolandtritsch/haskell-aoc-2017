@@ -41,6 +41,7 @@ executables:
     - -O0
     dependencies:
     - haskell-aoc
+    - timeit
 
 tests:
   haskell-aoc-test:

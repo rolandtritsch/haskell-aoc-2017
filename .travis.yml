@@ -9,6 +9,10 @@ notifications:
 
 sudo: required
 
+cache:
+  directories:
+    .stack-work
+
 before_install:
   - curl -sSL https://get.haskellstack.org/ | sh
   - stack build --dry-run

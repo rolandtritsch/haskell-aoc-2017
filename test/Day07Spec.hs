@@ -6,8 +6,7 @@ import Test.Hspec
 import Data.Maybe (fromJust)
 import qualified Data.Map as M
 
-import Data.Tree
-import qualified Data.Tree as T
+import Data.Tree (levels)
 
 import Day07
 import qualified Day07.Part1 as P1

@@ -1,7 +1,10 @@
--- Part2.hs
 module Day02.Part2 where
 
--- import Day02
+import System.TimeIt (timeItT)
+import Text.Printf (printf)
+import Control.Exception (evaluate)
+
+import Day02
 
 -- | calculate the evenlyDivisible for every row
 evenlyDivisible :: [[Int]] -> [Int]
@@ -12,3 +15,9 @@ evenlyDivisible rows = map process rows where
 -- | solve the puzzle
 solve :: [[Int]] -> Int
 solve rows = sum $ evenlyDivisible rows
+
+-- | main
+main :: IO ()
+main = do
+  (d02p2t, d02p2r) <- timeItT $ evaluate (solve input)
+  printf "Day02: Part2: checksum -> (%f, %d)\n" d02p2t d02p2r

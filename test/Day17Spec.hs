@@ -5,7 +5,7 @@ import Test.Hspec
 
 import Day17
 import qualified Day17.Part1 as P1
-import qualified Day17.Part2 as P2
+--import qualified Day17.Part2 as P2
 
 run :: IO ()
 run = hspec $ do
@@ -23,9 +23,9 @@ run = hspec $ do
 
   describe "insertAt" $ do
     it "should insert value at/after position" $ do
-      insertAt 1 0 [0] `shouldBe` [0,1]
-      insertAt 2 0 [0,1] `shouldBe` [0,2,1]
-      insertAt 2 1 [0,1] `shouldBe` [0,1,2]
+      insertAt 1 0 [0] `shouldBe` [0 :: Int,1]
+      insertAt 2 0 [0,1] `shouldBe` [0 :: Int,2,1]
+      insertAt 2 1 [0,1] `shouldBe` [0 :: Int,1,2]
 
   describe "solve - Part1" $ do
     it "should solve the puzzle" $ do

@@ -4,8 +4,8 @@ module Day05Spec where
 import Test.Hspec
 
 import Day05
-import qualified Day05.Part1 as P1
-import qualified Day05.Part2 as P2
+--import qualified Day05.Part1 as P1
+--import qualified Day05.Part2 as P2
 
 run :: IO ()
 run = hspec $ do

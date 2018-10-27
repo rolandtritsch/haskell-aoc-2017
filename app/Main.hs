@@ -1,10 +1,12 @@
 module Main where
 
-import Text.Printf
-import System.TimeIt
+import Text.Printf (printf)
+import System.TimeIt (timeItT)
 import Control.Exception.Base (evaluate)
 
 import qualified Day01 as D01
+import qualified Day02.Part1 as D01P1
+import qualified Day02.Part2 as D01P2
 import qualified Day02 as D02
 import qualified Day02.Part1 as D02P1
 import qualified Day02.Part2 as D02P2
@@ -14,9 +16,9 @@ import qualified Day03.Part2 as D03P2
 import qualified Day04 as D04
 import qualified Day04.Part1 as D04P1
 import qualified Day04.Part2 as D04P2
-import qualified Day05 as D05
-import qualified Day05.Part1 as D05P1
-import qualified Day05.Part2 as D05P2
+--import qualified Day05 as D05
+--import qualified Day05.Part1 as D05P1
+--import qualified Day05.Part2 as D05P2
 import qualified Day06 as D06
 import qualified Day06.Part1 as D06P1
 import qualified Day06.Part2 as D06P2
@@ -31,7 +33,7 @@ import qualified Day09.Part1 as D09P1
 import qualified Day09.Part2 as D09P2
 import qualified Day10 as D10
 import qualified Day10.Part1 as D10P1
-import qualified Day10.Part2 as D10P2
+--import qualified Day10.Part2 as D10P2
 import qualified Day11 as D11
 import qualified Day11.Part1 as D11P1
 import qualified Day11.Part2 as D11P2
@@ -40,28 +42,28 @@ import qualified Day12.Part1 as D12P1
 import qualified Day12.Part2 as D12P2
 import qualified Day13 as D13
 import qualified Day13.Part1 as D13P1
-import qualified Day13.Part2 as D13P2
-import qualified Day14 as D14
-import qualified Day14.Part1 as D14P1
-import qualified Day14.Part2 as D14P2
-import qualified Day15 as D15
-import qualified Day15.Part1 as D15P1
-import qualified Day15.Part2 as D15P2
+--import qualified Day13.Part2 as D13P2
+--import qualified Day14 as D14
+--import qualified Day14.Part1 as D14P1
+--import qualified Day14.Part2 as D14P2
+--import qualified Day15 as D15
+--import qualified Day15.Part1 as D15P1
+--import qualified Day15.Part2 as D15P2
 import qualified Day16 as D16
 import qualified Day16.Part1 as D16P1
 import qualified Day16.Part2 as D16P2
 import qualified Day17 as D17
 import qualified Day17.Part1 as D17P1
-import qualified Day17.Part2 as D17P2
+--import qualified Day17.Part2 as D17P2
 import qualified Day18 as D18
 import qualified Day18.Part1 as D18P1
 import qualified Day18.Part2 as D18P2
 
 main :: IO ()
 main = do
-  (d01p1t, d01p1r) <- timeItT $ evaluate (D01.captcha D01.input)
+  (d01p1t, d01p1r) <- timeItT $ evaluate (D01P1.solve D01.input)
   printf "Day01: Part1: captcha -> (%f, %d)\n" d01p1t d01p1r
-  (d01p2t, d01p2r) <- timeItT $ evaluate (D01.captcha' D01.input)
+  (d01p2t, d01p2r) <- timeItT $ evaluate (D01P2.solve D01.input)
   printf "Day01: Part2: captcha' -> (%f, %d)\n" d01p2t d01p2r
 
   (d02p1t, d02p1r) <- timeItT $ evaluate (D02P1.solve D02.input)

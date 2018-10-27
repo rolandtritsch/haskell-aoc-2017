@@ -12,6 +12,7 @@ sudo: required
 cache:
   directories:
     .stack-work
+    .stack
 
 before_install:
   - curl -sSL https://get.haskellstack.org/ | sh

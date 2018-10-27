@@ -1,11 +1,10 @@
--- Day14Spec.hs
 module Day14Spec where
 
 import Test.Hspec
 
 import Day14
---import qualified Day14.Part1 as P1
---import qualified Day14.Part2 as P2
+import qualified Day14.Part1 as P1
+import qualified Day14.Part2 as P2
 
 run :: IO ()
 run = hspec $ do
@@ -17,7 +16,6 @@ run = hspec $ do
     it "should build a/the grid (for the testcase(s))" $ do
       take 6 (head (buildGrid "flqrgnkx")) `shouldBe` [True,True,False,True,False,True]
 
-{-
   describe "solve - Part1" $ do
     it "should solve the testcase(s)" $ do
       P1.solve "flqrgnkx" `shouldBe` 8108
@@ -31,4 +29,3 @@ run = hspec $ do
 
     it "should solve the puzzle" $ do
       P2.solve input `shouldBe` 1069
--}

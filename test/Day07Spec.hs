@@ -1,4 +1,3 @@
--- Day07Spec.hs
 module Day07Spec where
 
 import Test.Hspec

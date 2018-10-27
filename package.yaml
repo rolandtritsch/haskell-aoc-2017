@@ -9,14 +9,10 @@ copyright:           "2018 Roland Tritsch"
 extra-source-files:
 - README.md
 
-# Metadata used when publishing your package
 synopsis:            An implementation of the Advent of Code - 2017
 category:            Web
 
-# To avoid duplicated efforts in documentation and dealing with the
-# complications of embedding Haddock markup inside cabal files, it is
-# common to point users to the README.md file.
-description:         Please see the README on Github at <https://github.com/rolandtritsch/haskell-aoc-2017#README.md>
+description:         Please see the README on Github
 
 dependencies:
 - base >= 4.7 && < 5
@@ -35,16 +31,15 @@ library:
   - hexstring
 
 executables:
-#  haskell-aoc:
-#    main:            Main.hs
-#    source-dirs:     app
-#    ghc-options:
-#    - -main-is Main.main
-#    - -O2 -threaded
-#    - -Wall -Werror
-#    dependencies:
-#    - haskell-aoc
-#    - timeit
+  haskell-aoc:
+    main:            Main.hs
+    source-dirs:     app
+    ghc-options:
+    - -main-is Main.main
+    - -O2 -threaded
+    - -Wall -Werror
+    dependencies:
+    - haskell-aoc
 
   haskell-aoc-day01p1:
     main:            src/Day01/Part1.hs

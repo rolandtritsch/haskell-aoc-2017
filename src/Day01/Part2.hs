@@ -13,5 +13,5 @@ solve number = captcha' number
 -- | main
 main :: IO ()
 main = do
-  (d02p1t, d02p1r) <- timeItT $ evaluate (solve input)
-  printf "Day02: Part1: captcha' -> (%f, %d)\n" d02p1t d02p1r
+  (time, result) <- timeItT $ evaluate (solve input)
+  printf "Day02: Part1: captcha' -> (%f, %d)\n" time result

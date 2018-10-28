@@ -1,5 +1,8 @@
--- Part2.hs
 module Day04.Part2 where
+
+import Text.Printf (printf)
+import System.TimeIt (timeItT)
+import Control.Exception.Base (evaluate)
 
 import Data.List (sort)
 
@@ -14,3 +17,9 @@ sortCharsInWords = map $ map sort
 -- is a list of words). Return the number of valid passphrases.
 solve :: [[String]] -> Int
 solve phrases = countValid P1.isValid $ sortCharsInWords $ phrases
+
+-- | main
+main :: IO ()
+main = do
+  (time, result) <- timeItT $ evaluate (solve input)
+  printf "Day04: Part2: countvalid -> (%f, %d)\n" time result

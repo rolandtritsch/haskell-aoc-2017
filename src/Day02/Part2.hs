@@ -19,5 +19,5 @@ solve rows = sum $ evenlyDivisible rows
 -- | main
 main :: IO ()
 main = do
-  (d02p2t, d02p2r) <- timeItT $ evaluate (solve input)
-  printf "Day02: Part2: checksum -> (%f, %d)\n" d02p2t d02p2r
+  (time, result) <- timeItT $ evaluate (solve input)
+  printf "Day02: Part2: checksum -> (%f, %d)\n" time result

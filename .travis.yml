@@ -11,8 +11,8 @@ sudo: required
 
 cache:
   directories:
-    - .stack-work
-    - .stack
+    - ~/rolandtritsch/haskell-aoc-2017/.stack-work
+    - ~/.stack
 
 before_install:
   - curl -sSL https://get.haskellstack.org/ | sh

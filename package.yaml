@@ -95,285 +95,285 @@ executables:
     dependencies:
     - haskell-aoc
 
-#  haskell-aoc-day04p1:
-#    main:            src/Day04/Part1.hs
-#    ghc-options:
-#    - -main-is Day04.Part1.main
-#    - -O2 -threaded
-#    - -Wall -Werror
-#    dependencies:
-#    - haskell-aoc
+  haskell-aoc-day04p1:
+    main:            src/Day04/Part1.hs
+    ghc-options:
+    - -main-is Day04.Part1.main
+    - -O2 -threaded
+    - -Wall -Werror
+    dependencies:
+    - haskell-aoc
 
-#  haskell-aoc-day04p2:
-#    main:            src/Day04/Part2.hs
-#    ghc-options:
-#    - -main-is Day04.Part2.main
-#    - -O2 -threaded
-#    - -Wall -Werror
-#    dependencies:
-#    - haskell-aoc
+  haskell-aoc-day04p2:
+    main:            src/Day04/Part2.hs
+    ghc-options:
+    - -main-is Day04.Part2.main
+    - -O2 -threaded
+    - -Wall -Werror
+    dependencies:
+    - haskell-aoc
 
-#  haskell-aoc-day05p1:
-#    main:            src/Day05/Part1.hs
-#    ghc-options:
-#    - -main-is Day05.Part1.main
-#    - -O2 -threaded
-#    - -Wall -Werror
-#    dependencies:
-#    - haskell-aoc
+  haskell-aoc-day05p1:
+    main:            src/Day05/Part1.hs
+    ghc-options:
+    - -main-is Day05.Part1.main
+    - -O2 -threaded
+    - -Wall -Werror
+    dependencies:
+    - haskell-aoc
 
-#  haskell-aoc-day05p2:
-#    main:            src/Day05/Part2.hs
-#    ghc-options:
-#    - -main-is Day05.Part2.main
-#    - -O2 -threaded
-#    - -Wall -Werror
-#    dependencies:
-#    - haskell-aoc
+  haskell-aoc-day05p2:
+    main:            src/Day05/Part2.hs
+    ghc-options:
+    - -main-is Day05.Part2.main
+    - -O2 -threaded
+    - -Wall -Werror
+    dependencies:
+    - haskell-aoc
 
-#  haskell-aoc-day06p1:
-#    main:            src/Day06/Part1.hs
-#    ghc-options:
-#    - -main-is Day06.Part1.main
-#    - -O2 -threaded
-#    - -Wall -Werror
-#    dependencies:
-#    - haskell-aoc
+  haskell-aoc-day06p1:
+    main:            src/Day06/Part1.hs
+    ghc-options:
+    - -main-is Day06.Part1.main
+    - -O2 -threaded
+    - -Wall -Werror
+    dependencies:
+    - haskell-aoc
 
-#  haskell-aoc-day06p2:
-#    main:            src/Day06/Part2.hs
-#    ghc-options:
-#    - -main-is Day06.Part2.main
-#    - -O2 -threaded
-#    - -Wall -Werror
-#    dependencies:
-#    - haskell-aoc
+  haskell-aoc-day06p2:
+    main:            src/Day06/Part2.hs
+    ghc-options:
+    - -main-is Day06.Part2.main
+    - -O2 -threaded
+    - -Wall -Werror
+    dependencies:
+    - haskell-aoc
 
-#  haskell-aoc-day07p1:
-#    main:            src/Day07/Part1.hs
-#    ghc-options:
-#    - -main-is Day07.Part1.main
-#    - -O2 -threaded
-#    - -Wall -Werror
-#    dependencies:
-#    - haskell-aoc
+  haskell-aoc-day07p1:
+    main:            src/Day07/Part1.hs
+    ghc-options:
+    - -main-is Day07.Part1.main
+    - -O2 -threaded
+    - -Wall -Werror
+    dependencies:
+    - haskell-aoc
 
-#  haskell-aoc-day07p2:
-#    main:            src/Day07/Part2.hs
-#    ghc-options:
-#    - -main-is Day07.Part2.main
-#    - -O2 -threaded
-#    - -Wall -Werror
-#    dependencies:
-#    - haskell-aoc
+  haskell-aoc-day07p2:
+    main:            src/Day07/Part2.hs
+    ghc-options:
+    - -main-is Day07.Part2.main
+    - -O2 -threaded
+    - -Wall -Werror
+    dependencies:
+    - haskell-aoc
 
-#  haskell-aoc-day08p1:
-#    main:            src/Day08/Part1.hs
-#    ghc-options:
-#    - -main-is Day08.Part1.main
-#    - -O2 -threaded
-#    - -Wall -Werror
-#    dependencies:
-#    - haskell-aoc
+  haskell-aoc-day08p1:
+    main:            src/Day08/Part1.hs
+    ghc-options:
+    - -main-is Day08.Part1.main
+    - -O2 -threaded
+    - -Wall -Werror
+    dependencies:
+    - haskell-aoc
 
- # haskell-aoc-day08p2:
- #   main:            src/Day08/Part2.hs
- #   ghc-options:
- #   - -main-is Day08.Part2.main
- #   - -O2 -threaded
- #   - -Wall -Werror
- #   dependencies:
- #   - haskell-aoc
+# haskell-aoc-day08p2:
+#   main:            src/Day08/Part2.hs
+#   ghc-options:
+#   - -main-is Day08.Part2.main
+#   - -O2 -threaded
+#   - -Wall -Werror
+#   dependencies:
+#   - haskell-aoc
 
-#  haskell-aoc-day09p1:
-#    main:            src/Day09/Part1.hs
-#    ghc-options:
-#    - -main-is Day09.Part1.main
-#    - -O2 -threaded
-#    - -Wall -Werror
-#    dependencies:
-#    - haskell-aoc
+  haskell-aoc-day09p1:
+    main:            src/Day09/Part1.hs
+    ghc-options:
+    - -main-is Day09.Part1.main
+    - -O2 -threaded
+    - -Wall -Werror
+    dependencies:
+    - haskell-aoc
 
-#  haskell-aoc-day09p2:
-#    main:            src/Day09/Part2.hs
-#    ghc-options:
-#    - -main-is Day09.Part2.main
-#    - -O2 -threaded
-#    - -Wall -Werror
-#    dependencies:
-#    - haskell-aoc
+  haskell-aoc-day09p2:
+    main:            src/Day09/Part2.hs
+    ghc-options:
+    - -main-is Day09.Part2.main
+    - -O2 -threaded
+    - -Wall -Werror
+    dependencies:
+    - haskell-aoc
 
-#  haskell-aoc-day10p1:
-#    main:            src/Day10/Part1.hs
-#    ghc-options:
-#    - -main-is Day10.Part1.main
-#    - -O2 -threaded
-#    - -Wall -Werror
-#    dependencies:
-#    - haskell-aoc
+  haskell-aoc-day10p1:
+    main:            src/Day10/Part1.hs
+    ghc-options:
+    - -main-is Day10.Part1.main
+    - -O2 -threaded
+    - -Wall -Werror
+    dependencies:
+    - haskell-aoc
 
- # haskell-aoc-day10p2:
- #   main:            src/Day10/Part2.hs
- #   ghc-options:
- #   - -main-is Day10.Part2.main
- #   - -O2 -threaded
- #   - -Wall -Werror
- #   dependencies:
- #   - haskell-aoc
+# haskell-aoc-day10p2:
+#   main:            src/Day10/Part2.hs
+#   ghc-options:
+#   - -main-is Day10.Part2.main
+#   - -O2 -threaded
+#   - -Wall -Werror
+#   dependencies:
+#   - haskell-aoc
 
-#  haskell-aoc-day11p1:
-#    main:            src/Day11/Part1.hs
-#    ghc-options:
-#    - -main-is Day11.Part1.main
-#    - -O2 -threaded
-#    - -Wall -Werror
-#    dependencies:
-#    - haskell-aoc
+  haskell-aoc-day11p1:
+    main:            src/Day11/Part1.hs
+    ghc-options:
+    - -main-is Day11.Part1.main
+    - -O2 -threaded
+    - -Wall -Werror
+    dependencies:
+    - haskell-aoc
 
-#  haskell-aoc-day11p2:
-#    main:            src/Day11/Part2.hs
-#    ghc-options:
-#    - -main-is Day11.Part2.main
-#    - -O2 -threaded
-#    - -Wall -Werror
-#    dependencies:
-#    - haskell-aoc
+  haskell-aoc-day11p2:
+    main:            src/Day11/Part2.hs
+    ghc-options:
+    - -main-is Day11.Part2.main
+    - -O2 -threaded
+    - -Wall -Werror
+    dependencies:
+    - haskell-aoc
 
-#  haskell-aoc-day12p1:
-#    main:            src/Day12/Part1.hs
-#    ghc-options:
-#    - -main-is Day12.Part1.main
-#    - -O2 -threaded
-#    - -Wall -Werror
-#    dependencies:
-#    - haskell-aoc
+  haskell-aoc-day12p1:
+    main:            src/Day12/Part1.hs
+    ghc-options:
+    - -main-is Day12.Part1.main
+    - -O2 -threaded
+    - -Wall -Werror
+    dependencies:
+    - haskell-aoc
 
- # haskell-aoc-day12p2:
- #   main:            src/Day12/Part2.hs
- #   ghc-options:
- #   - -main-is Day12.Part2.main
- #   - -O2 -threaded
- #   - -Wall -Werror
- #   dependencies:
- #   - haskell-aoc
+# haskell-aoc-day12p2:
+#   main:            src/Day12/Part2.hs
+#   ghc-options:
+#   - -main-is Day12.Part2.main
+#   - -O2 -threaded
+#   - -Wall -Werror
+#   dependencies:
+#   - haskell-aoc
 
-#  haskell-aoc-day13p1:
-#    main:            src/Day13/Part1.hs
-#    ghc-options:
-#    - -main-is Day13.Part1.main
-#    - -O2 -threaded
-#    - -Wall -Werror
-#    dependencies:
-#    - haskell-aoc
+  haskell-aoc-day13p1:
+    main:            src/Day13/Part1.hs
+    ghc-options:
+    - -main-is Day13.Part1.main
+    - -O2 -threaded
+    - -Wall -Werror
+    dependencies:
+    - haskell-aoc
 
-#  haskell-aoc-day13p2:
-#    main:            src/Day13/Part2.hs
-#    ghc-options:
-#    - -main-is Day13.Part2.main
-#    - -O2 -threaded
-#    - -Wall -Werror
-#    dependencies:
-#    - haskell-aoc
+  haskell-aoc-day13p2:
+    main:            src/Day13/Part2.hs
+    ghc-options:
+    - -main-is Day13.Part2.main
+    - -O2 -threaded
+    - -Wall -Werror
+    dependencies:
+    - haskell-aoc
 
-#  haskell-aoc-day14p1:
-#    main:            src/Day14/Part1.hs
-#    ghc-options:
-#    - -main-is Day14.Part1.main
-#    - -O2 -threaded
-#    - -Wall -Werror
-#    dependencies:
-#    - haskell-aoc
+  haskell-aoc-day14p1:
+    main:            src/Day14/Part1.hs
+    ghc-options:
+    - -main-is Day14.Part1.main
+    - -O2 -threaded
+    - -Wall -Werror
+    dependencies:
+    - haskell-aoc
 
- # haskell-aoc-day14p2:
- #   main:            src/Day14/Part2.hs
- #   ghc-options:
- #   - -main-is Day14.Part2.main
- #   - -O2 -threaded
- #   - -Wall -Werror
- #   dependencies:
- #   - haskell-aoc
+# haskell-aoc-day14p2:
+#   main:            src/Day14/Part2.hs
+#   ghc-options:
+#   - -main-is Day14.Part2.main
+#   - -O2 -threaded
+#   - -Wall -Werror
+#   dependencies:
+#   - haskell-aoc
 
-#  haskell-aoc-day15p1:
-#    main:            src/Day15/Part1.hs
-#    ghc-options:
-#    - -main-is Day15.Part1.main
-#    - -O2 -threaded
-#    - -Wall -Werror
-#    dependencies:
-#    - haskell-aoc
+  haskell-aoc-day15p1:
+    main:            src/Day15/Part1.hs
+    ghc-options:
+    - -main-is Day15.Part1.main
+    - -O2 -threaded
+    - -Wall -Werror
+    dependencies:
+    - haskell-aoc
 
-#  haskell-aoc-day15p2:
-#    main:            src/Day15/Part2.hs
-#    ghc-options:
-#    - -main-is Day15.Part2.main
-#    - -O2 -threaded
-#    - -Wall -Werror
-#    dependencies:
-#    - haskell-aoc
+  haskell-aoc-day15p2:
+    main:            src/Day15/Part2.hs
+    ghc-options:
+    - -main-is Day15.Part2.main
+    - -O2 -threaded
+    - -Wall -Werror
+    dependencies:
+    - haskell-aoc
 
-#  haskell-aoc-day16p1:
-#    main:            src/Day16/Part1.hs
-#    ghc-options:
-#    - -main-is Day16.Part1.main
-#    - -O2 -threaded
-#    - -Wall -Werror
-#    dependencies:
-#    - haskell-aoc
+  haskell-aoc-day16p1:
+    main:            src/Day16/Part1.hs
+    ghc-options:
+    - -main-is Day16.Part1.main
+    - -O2 -threaded
+    - -Wall -Werror
+    dependencies:
+    - haskell-aoc
 
- # haskell-aoc-day16p2:
- #   main:            src/Day16/Part2.hs
- #   ghc-options:
- #   - -main-is Day16.Part2.main
- #   - -O2 -threaded
- #   - -Wall -Werror
- #   dependencies:
- #   - haskell-aoc
+# haskell-aoc-day16p2:
+#   main:            src/Day16/Part2.hs
+#   ghc-options:
+#   - -main-is Day16.Part2.main
+#   - -O2 -threaded
+#   - -Wall -Werror
+#   dependencies:
+#   - haskell-aoc
 
-#  haskell-aoc-day17p1:
-#    main:            src/Day17/Part1.hs
-#    ghc-options:
-#    - -main-is Day17.Part1.main
-#    - -O2 -threaded
-#    - -Wall -Werror
-#    dependencies:
-#    - haskell-aoc
+  haskell-aoc-day17p1:
+    main:            src/Day17/Part1.hs
+    ghc-options:
+    - -main-is Day17.Part1.main
+    - -O2 -threaded
+    - -Wall -Werror
+    dependencies:
+    - haskell-aoc
 
-#  haskell-aoc-day17p2:
-#    main:            src/Day17/Part2.hs
-#    ghc-options:
-#    - -main-is Day17.Part2.main
-#    - -O2 -threaded
-#    - -Wall -Werror
-#    dependencies:
-#    - haskell-aoc
+  haskell-aoc-day17p2:
+    main:            src/Day17/Part2.hs
+    ghc-options:
+    - -main-is Day17.Part2.main
+    - -O2 -threaded
+    - -Wall -Werror
+    dependencies:
+    - haskell-aoc
 
-#  haskell-aoc-day18p1:
-#    main:            src/Day18/Part1.hs
-#    ghc-options:
-#    - -main-is Day18.Part1.main
-#    - -O2 -threaded
-#    - -Wall -Werror
-#    dependencies:
-#    - haskell-aoc
+  haskell-aoc-day18p1:
+    main:            src/Day18/Part1.hs
+    ghc-options:
+    - -main-is Day18.Part1.main
+    - -O2 -threaded
+    - -Wall -Werror
+    dependencies:
+    - haskell-aoc
 
-#  haskell-aoc-day18p2:
-#    main:            src/Day18/Part2.hs
-#    ghc-options:
-#    - -main-is Day18.Part2.main
-#    - -O2 -threaded
-#    - -Wall -Werror
-#    dependencies:
-#    - haskell-aoc
+  haskell-aoc-day18p2:
+    main:            src/Day18/Part2.hs
+    ghc-options:
+    - -main-is Day18.Part2.main
+    - -O2 -threaded
+    - -Wall -Werror
+    dependencies:
+    - haskell-aoc
 
 tests:
-#  haskell-aoc-test:
-#    main:            Spec.hs
-#    source-dirs:     test
-#    ghc-options:
-#    - -main-is Spec.main
-#    dependencies:
-#    - haskell-aoc
-#    - hspec
+  haskell-aoc-test:
+    main:            Spec.hs
+    source-dirs:     test
+    ghc-options:
+    - -main-is Spec.main
+    dependencies:
+    - haskell-aoc
+    - hspec
 
   haskell-aoc-test-day01:
     main:            Day01Spec.hs

@@ -40,5 +40,5 @@ solve target = value $ fromJust $ find (\(Cell v _) -> v > target) $ (cells move
 -- | main
 main :: IO ()
 main = do
-  (d03p2t, d03p2r) <- timeItT $ evaluate (solve input)
-  printf "Day03: Part2: number -> (%f, %d)\n" d03p2t d03p2r
+  (time, result) <- timeItT $ evaluate (solve input)
+  printf "Day03: Part2: number -> (%f, %d)\n" time result

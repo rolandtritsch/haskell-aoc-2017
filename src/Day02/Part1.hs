@@ -19,5 +19,5 @@ solve rows = sum $ checksums rows
 -- | main
 main :: IO ()
 main = do
-  (d02p1t, d02p1r) <- timeItT $ evaluate (solve input)
-  printf "Day02: Part1: checksum -> (%f, %d)\n" d02p1t d02p1r
+  (time, result) <- timeItT $ evaluate (solve input)
+  printf "Day02: Part1: checksum -> (%f, %d)\n" time result

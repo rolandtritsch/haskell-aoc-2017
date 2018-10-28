@@ -19,7 +19,7 @@ before_install:
   - stack build --dry-run
 
 script:
-  - travis_wait 60 stack build && if [ "${TYPE}" == "EXE"]; then stack exec haskell-aoc-day${DAY}p${PART}; else stack test :haskell-aoc-test-day${DAY} --test-arguments "--match Part${PART}"
+  - travis_wait 60 stack build && if [ "${TYPE}" == "EXE"]; then stack exec haskell-aoc-day${DAY}p${PART}; else stack test :haskell-aoc-test-day${DAY} --test-arguments "--match Part${PART}"; fi
 
 env:
   - DAY=01 PART=1 TYPE=EXE

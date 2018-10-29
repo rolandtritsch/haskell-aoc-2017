@@ -6,5 +6,5 @@ then
   stack build :${target} --exec ${target}
 else
   target=haskell-aoc-test-day${DAY}
-  stack test :{target} --test-arguments "--match Part${PART}"
+  stack test :${target} --test-arguments "--match Part${PART}"
 fi

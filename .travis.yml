@@ -97,6 +97,9 @@ env:
 
 matrix:
   exclude:
+    - env: DAY=05 PART=2 TYPE=EXE
+    - env: DAY=13 PART=2 TYPE=EXE
+    - env: DAY=14 PART=2 TYPE=EXE
     - env: DAY=05 PART=2 TYPE=TEST
     - env: DAY=13 PART=2 TYPE=TEST
     - env: DAY=14 PART=2 TYPE=TEST

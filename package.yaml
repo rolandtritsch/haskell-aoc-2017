@@ -27,8 +27,8 @@ library:
   dependencies:
   - text
   - split
-  - Unique
   - hexstring
+  - Unique
 
 executables:
   haskell-aoc:
@@ -176,14 +176,14 @@ executables:
     dependencies:
     - haskell-aoc
 
-# haskell-aoc-day08p2:
-#   main:            src/Day08/Part2.hs
-#   ghc-options:
-#   - -main-is Day08.Part2.main
-#   - -O2 -threaded
-#   - -Wall -Werror
-#   dependencies:
-#   - haskell-aoc
+  haskell-aoc-day08p2:
+    main:            src/Day08/Part2.hs
+    ghc-options:
+    - -main-is Day08.Part2.main
+    - -O2 -threaded
+    - -Wall -Werror
+    dependencies:
+    - haskell-aoc
 
   haskell-aoc-day09p1:
     main:            src/Day09/Part1.hs
@@ -212,14 +212,14 @@ executables:
     dependencies:
     - haskell-aoc
 
-# haskell-aoc-day10p2:
-#   main:            src/Day10/Part2.hs
-#   ghc-options:
-#   - -main-is Day10.Part2.main
-#   - -O2 -threaded
-#   - -Wall -Werror
-#   dependencies:
-#   - haskell-aoc
+  haskell-aoc-day10p2:
+    main:            src/Day10/Part2.hs
+    ghc-options:
+    - -main-is Day10.Part2.main
+    - -O2 -threaded
+    - -Wall -Werror
+    dependencies:
+    - haskell-aoc
 
   haskell-aoc-day11p1:
     main:            src/Day11/Part1.hs
@@ -248,14 +248,14 @@ executables:
     dependencies:
     - haskell-aoc
 
-# haskell-aoc-day12p2:
-#   main:            src/Day12/Part2.hs
-#   ghc-options:
-#   - -main-is Day12.Part2.main
-#   - -O2 -threaded
-#   - -Wall -Werror
-#   dependencies:
-#   - haskell-aoc
+  haskell-aoc-day12p2:
+    main:            src/Day12/Part2.hs
+    ghc-options:
+    - -main-is Day12.Part2.main
+    - -O2 -threaded
+    - -Wall -Werror
+    dependencies:
+    - haskell-aoc
 
   haskell-aoc-day13p1:
     main:            src/Day13/Part1.hs
@@ -284,14 +284,14 @@ executables:
     dependencies:
     - haskell-aoc
 
-# haskell-aoc-day14p2:
-#   main:            src/Day14/Part2.hs
-#   ghc-options:
-#   - -main-is Day14.Part2.main
-#   - -O2 -threaded
-#   - -Wall -Werror
-#   dependencies:
-#   - haskell-aoc
+  haskell-aoc-day14p2:
+    main:            src/Day14/Part2.hs
+    ghc-options:
+    - -main-is Day14.Part2.main
+    - -O2 -threaded
+    - -Wall -Werror
+    dependencies:
+    - haskell-aoc
 
   haskell-aoc-day15p1:
     main:            src/Day15/Part1.hs
@@ -320,14 +320,14 @@ executables:
     dependencies:
     - haskell-aoc
 
-# haskell-aoc-day16p2:
-#   main:            src/Day16/Part2.hs
-#   ghc-options:
-#   - -main-is Day16.Part2.main
-#   - -O2 -threaded
-#   - -Wall -Werror
-#   dependencies:
-#   - haskell-aoc
+  haskell-aoc-day16p2:
+    main:            src/Day16/Part2.hs
+    ghc-options:
+    - -main-is Day16.Part2.main
+    - -O2 -threaded
+    - -Wall -Werror
+    dependencies:
+    - haskell-aoc
 
   haskell-aoc-day17p1:
     main:            src/Day17/Part1.hs

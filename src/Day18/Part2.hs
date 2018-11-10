@@ -14,36 +14,13 @@ import Control.Exception
 
 import Debug.Trace
 
---import Data.Typeable
+import Control.Concurrent
 
-import Control.Concurrent (
-  Chan
-  , MVar
-  , forkIO
-  , threadDelay
-  , newChan
-  , dupChan
-  , writeChan
-  , readChan
-  , newEmptyMVar
-  , newMVar
-  , putMVar
-  , swapMVar
-  , takeMVar
-  , myThreadId
-  , getChanContents
-  )
+import Control.Concurrent.Async
 
-import Control.Concurrent.Async (
-  async
-  , wait
-  , waitBoth
-  , waitCatch
-  , asyncBound
-  , concurrently
-  )
+import Control.Concurrent.STM
 
-import System.IO.Unsafe (unsafePerformIO)
+import System.IO.Unsafe
 
 --import Day18
 
@@ -61,12 +38,14 @@ type Registers = M.Map Char Integer
 
 type Counter = Integer
 
+type TId = Integer
+
 -- | the program state
 data State
-  = Running Counter Registers (Chan Integer) (Chan Integer) (MVar Integer)
+  = Running TId Counter Registers (TChan Integer) (TChan Integer) (TVar Integer)
   | Done Integer
 
-type Instruction = State -> State
+type Instruction = State -> IO State
 
 -- | a/the special register to store the last sound played
 --soundRegister :: Char
@@ -76,79 +55,56 @@ type Instruction = State -> State
 input :: [Assembler]
 input = inputRaw "input/Day18input.txt"
 
-w2c :: Char -> Registers -> Chan Integer -> IO (Chan Integer)
-w2c r rs c = do
-  mtid <- myThreadId
-  traceIO ((show mtid) ++ ":" ++ (show $ M.findWithDefault 0 r rs))
-  writeChan c (M.findWithDefault 0 r rs)
-  return $! c
-
-incMVar :: MVar Integer -> IO (MVar Integer)
-incMVar mv = do
-  mtid <- myThreadId
-  i <- swapMVar mv 0
-  traceIO (show mtid ++ " inc " ++ show i)
-  _ <- swapMVar mv (i + 1)
-  return $! mv
-
-showMVar :: MVar Integer -> IO Integer
-showMVar mv = do
-  mtid <- myThreadId
-  i <- swapMVar mv 0
-  traceIO (show mtid ++ " show " ++ show i)
-  _ <- swapMVar mv i
-  return $! i
-
 -- | excute the snd (send) instruction
-{-# NOINLINE snd' #-}
-snd' :: Char -> State -> State
-snd' r (Running pc rs rc wc cnt) = trace ("snd: " ++ (show $ unsafePerformIO $ showMVar cnt)) $ Running (pc + 1) rs rc (unsafePerformIO $ w2c r rs wc) (unsafePerformIO $ incMVar cnt)
+snd' :: Char -> State -> IO State
+snd' r (Running tid pc rs rc wc cnt) = atomically $ do
+  let v = M.findWithDefault 0 r rs
+  writeTChan wc v
+  i <- readTVar cnt
+  trace ("snd:" ++ show tid ++ ":" ++ show v ++ ":" ++ show i) $ modifyTVar cnt (+1)
+  return $ Running tid (pc + 1) rs rc wc cnt
 snd' _ (Done _) = error "Unknown state"
 
 -- | execute the set instruction
-set' :: Char -> Value -> State -> State
-set' r (RegisterValue i) (Running pc rs rc wc cnt) = Running (pc + 1) (M.insert r i rs) rc wc cnt
-set' r (Register ri) (Running pc rs rc wc cnt) = Running (pc + 1) (M.insert r (M.findWithDefault 0 ri rs) rs) rc wc cnt
+set' :: Char -> Value -> State -> IO State
+set' r (RegisterValue i) (Running tid pc rs rc wc cnt) = return $ trace ("set:" ++ show tid ++ ":" ++ show pc) $ Running tid (pc + 1) (M.insert r i rs) rc wc cnt
+set' r (Register ri) (Running tid pc rs rc wc cnt) = return $ trace ("set:" ++ show tid ++ ":" ++ show pc) $ Running tid (pc + 1) (M.insert r (M.findWithDefault 0 ri rs) rs) rc wc cnt
 set' _ _ (Done _) = error "Unknown state"
 
 -- | execute the add instruction
-add' :: Char -> Value -> State -> State
-add' r (RegisterValue i) (Running pc rs rc wc cnt) = Running (pc + 1) (M.insert r ((M.findWithDefault 0 r rs) + i) rs) rc wc cnt
-add' r (Register ri) (Running pc rs rc wc cnt) = Running (pc + 1) (M.insert r ((M.findWithDefault 0 r rs) + (M.findWithDefault 0 ri rs)) rs) rc wc cnt
+add' :: Char -> Value -> State -> IO State
+add' r (RegisterValue i) (Running tid pc rs rc wc cnt) = return $ trace ("add:" ++ show tid ++ ":" ++ show pc) $ Running tid (pc + 1) (M.insert r ((M.findWithDefault 0 r rs) + i) rs) rc wc cnt
+add' r (Register ri) (Running tid pc rs rc wc cnt) = return $ trace ("add:" ++ show tid ++ ":" ++ show pc) $ Running tid (pc + 1) (M.insert r ((M.findWithDefault 0 r rs) + (M.findWithDefault 0 ri rs)) rs) rc wc cnt
 add' _ _ (Done _) = error "Unknown state"
 
 -- | execute the mul instruction
-mul' :: Char -> Value -> State -> State
-mul' r (RegisterValue i) (Running pc rs rc wc cnt) = Running (pc + 1) (M.insert r ((M.findWithDefault 0 r rs) * i) rs) rc wc cnt
-mul' r (Register ri) (Running pc rs rc wc cnt) = Running (pc + 1) (M.insert r ((M.findWithDefault 0 r rs) * (M.findWithDefault 0 ri rs)) rs) rc wc cnt
+mul' :: Char -> Value -> State -> IO State
+mul' r (RegisterValue i) (Running tid pc rs rc wc cnt) = return $ trace ("mul:" ++ show tid ++ ":" ++ show pc) $ Running tid (pc + 1) (M.insert r ((M.findWithDefault 0 r rs) * i) rs) rc wc cnt
+mul' r (Register ri) (Running tid pc rs rc wc cnt) = return $ trace ("mul:" ++ show tid ++ ":" ++ show pc) $ Running tid (pc + 1) (M.insert r ((M.findWithDefault 0 r rs) * (M.findWithDefault 0 ri rs)) rs) rc wc cnt
 mul' _ _ (Done _) = error "Unknown state"
 
 -- | execute the mod instruction
-mod' :: Char -> Value -> State -> State
-mod' r (RegisterValue i) (Running pc rs rc wc cnt) = Running (pc + 1) (M.insert r (mod (M.findWithDefault 0 r rs) i) rs) rc wc cnt
-mod' r (Register ri) (Running pc rs rc wc cnt) = Running (pc + 1) (M.insert r (mod (M.findWithDefault 0 r rs) (M.findWithDefault 0 ri rs)) rs) rc wc cnt
+mod' :: Char -> Value -> State -> IO State
+mod' r (RegisterValue i) (Running tid pc rs rc wc cnt) = return $ trace ("mod:" ++ show tid ++ ":" ++ show pc) $ Running tid (pc + 1) (M.insert r (mod (M.findWithDefault 0 r rs) i) rs) rc wc cnt
+mod' r (Register ri) (Running tid pc rs rc wc cnt) = return $ trace ("mod:" ++ show tid ++ ":" ++ show pc) $ Running tid (pc + 1) (M.insert r (mod (M.findWithDefault 0 r rs) (M.findWithDefault 0 ri rs)) rs) rc wc cnt
 mod' _ _ (Done _) = error "Unknown state"
 
-r4c :: Chan Integer -> IO Integer
-r4c c = do
-  i <- readChan c
-  traceIO $ show i
-  return $! i
-
 -- | execute the rcv (receive) instruction
-{-# NOINLINE rcv' #-}
-rcv' :: Char -> State -> State
-rcv' r (Running pc rs rc wc cnt) = trace ("rcv: " ++ (show $ unsafePerformIO $ getChanContents rc)) $ Running (pc + 1) (M.insert r (unsafePerformIO $ r4c rc) rs) rc wc cnt
+rcv' :: Char -> State -> IO State
+rcv' r (Running tid pc rs rc wc cnt) = atomically $ do
+  v <- readTChan rc
+  trace ("rcv:" ++ show tid ++ ":" ++ show v) $ return ()
+  return $ Running tid (pc + 1) (M.insert r v rs) rc wc cnt
 rcv' _ (Done _) = error "Unknown state"
 
 -- | execute the jgz (jump, if greater than zero) instruction
-jgz' :: Char -> Value -> State -> State
-jgz' r (RegisterValue offset) (Running pc rs rc wc cnt)
-  | (M.findWithDefault 0 r rs) > 0 = Running (pc + offset) rs rc wc cnt
-  | otherwise = Running (pc + 1) rs rc wc cnt
-jgz' r (Register roffset) (Running pc rs rc wc cnt)
-  | (M.findWithDefault 0 r rs) > 0 = Running (pc + (M.findWithDefault 0 roffset rs)) rs rc wc cnt
-  | otherwise = Running (pc + 1) rs rc wc cnt
+jgz' :: Char -> Value -> State -> IO State
+jgz' r (RegisterValue offset) (Running tid pc rs rc wc cnt)
+  | (M.findWithDefault 0 r rs) > 0 = return $ trace ("jgz:" ++ show tid ++ ":" ++ show pc) $ Running tid (pc + offset) rs rc wc cnt
+  | otherwise = return $ trace ("jgz:" ++ show tid ++ ":" ++ show pc) $ Running tid (pc + 1) rs rc wc cnt
+jgz' r (Register roffset) (Running tid pc rs rc wc cnt)
+  | (M.findWithDefault 0 r rs) > 0 = return $ trace ("jgz:" ++ show tid ++ ":" ++ show pc) $ Running tid (pc + (M.findWithDefault 0 roffset rs)) rs rc wc cnt
+  | otherwise = return $ trace ("jgz:" ++ show tid ++ ":" ++ show pc) $ Running tid (pc + 1) rs rc wc cnt
 jgz' _ _ (Done _) = error "Unknown state"
 
 -- | get the register from the argument
@@ -177,26 +133,27 @@ instructions input' = map (instruction . tokenize) input' where
   instruction _ = error "Unknown instruction"
 
  -- | run the instructions (until we are done; means until the pc is out of range)
-{-# NOINLINE run #-}
-run :: State -> [Instruction] -> Integer
-run (Done exit) _ = exit
-run currentState@(Running pc _ _ _ _) program = trace (show (unsafePerformIO myThreadId) ++ " PC: " ++ show pc) $ run nextState program where
+run :: IO State -> [Instruction] -> IO State
+run currentState program = do
+  cs <- currentState
+  case cs of
+    (Done _) -> currentState
+    (Running tid pc _ _ _ _) -> trace ("pc:" ++ show tid ++ ":" ++ show pc) $ run (currentState >>= nextState) program
+      where
+        nextState cs'@(Running tid' pc' _ _ _ _)
+          | inRange (0, (length program)-1) (fromInteger pc') = trace ("ns:" ++ show tid' ++ ":" ++ show pc') $ (program !! (fromInteger pc')) cs'
+          | otherwise = return $ Done 0
+        nextState (Done _) = error "This should never happen (because I pattern match on Done above)."
+
+{-
+  nextState where
   nextState
     | inRange (0, (length program)-1) (fromInteger pc) = (program !! (fromInteger pc)) currentState
-    | otherwise = Done 0
-
+    | otherwise = return $ Done 0
+-}
 -- | solve the puzzle
 solve :: [String] -> Integer
 solve _ = 7112
-
-runIt :: State -> [Instruction] -> IO Integer
-runIt initalState is = do
-  return (run initalState is)
-
-tryTakeMVar:: MVar Integer -> IO Integer
-tryTakeMVar mv = do
-  putStrLn "***"
-  takeMVar mv
 
 {-
 main :: IO ()
@@ -213,23 +170,23 @@ main = do
 -- | main
 main :: IO ()
 main = do
-  a2b <- newChan
+  a2b <- newTChanIO
 --  writeChan a2b 1
 --  contents <- getChanContents a2b
 --  putStrLn $ (seq contents (show contents))
-  b2a <- newChan
-  counterA <- newMVar 0
-  counterB <- newMVar 0
+  b2a <- newTChanIO
+  counterA <- newTVarIO 0
+  counterB <- newTVarIO 0
   let is = instructions input
-  let pA = evaluate $ run (Running 0 (M.insert 'p' 0 M.empty) a2b b2a counterA) is
-  let pB = evaluate $ run (Running 0 (M.insert 'p' 1 M.empty) b2a a2b counterB) is
-  result :: Either BlockedIndefinitelyOnMVar (Integer, Integer) <- try $ concurrently pB pA
+  let pA = run (return $ Running 0 0 (M.insert 'p' 0 M.empty) a2b b2a counterA) is
+  let pB = run (return $ Running 1 0 (M.insert 'p' 1 M.empty) b2a a2b counterB) is
+  result :: Either BlockedIndefinitelyOnSTM (State, State) <- try $ concurrently pB pA
   case result of
     Left e -> putStrLn $ "Deadlock detected: " ++ (show e)
     Right _ -> error "This should not happen. This program should never finish. It should always deadlock."
-  cntA <- takeMVar counterA
+  cntA <- readTVarIO counterA
   putStrLn (show cntA)
-  cntB <- takeMVar counterB
+  cntB <- readTVarIO counterB
   putStrLn (show cntB)
 
 {-

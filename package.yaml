@@ -367,6 +367,24 @@ executables:
     dependencies:
     - haskell-aoc
 
+  haskell-aoc-day19p1:
+    main:            src/Day19/Part1.hs
+    ghc-options:
+    - -main-is Day19.Part1.main
+    - -O2 -threaded
+    - -Wall -Werror
+    dependencies:
+    - haskell-aoc
+
+  haskell-aoc-day19p2:
+    main:            src/Day19/Part2.hs
+    ghc-options:
+    - -main-is Day19.Part2.main
+    - -O2 -threaded
+    - -Wall -Werror
+    dependencies:
+    - haskell-aoc
+
 tests:
   haskell-aoc-test:
     main:            Spec.hs
@@ -587,6 +605,18 @@ tests:
     other-modules:   Day18Spec
     ghc-options:
     - -main-is Day18Spec.run
+    - -O2 -threaded
+    - -Wall -Werror
+    dependencies:
+    - haskell-aoc
+    - hspec
+
+  haskell-aoc-test-day19:
+    main:            Day19Spec.hs
+    source-dirs:     test
+    other-modules:   Day19Spec
+    ghc-options:
+    - -main-is Day19Spec.run
     - -O2 -threaded
     - -Wall -Werror
     dependencies:

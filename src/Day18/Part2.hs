@@ -21,6 +21,7 @@ import Control.Concurrent.Async
 import Control.Concurrent.STM
 
 import System.IO.Unsafe
+import System.IO
 
 --import Day18
 
@@ -45,7 +46,9 @@ data State
   = Running TId Counter Registers (TChan Integer) (TChan Integer) (TVar Integer)
   | Done Integer
 
-type Instruction = State -> IO State
+type Instruction = IO State -> IO State
+
+data S = S String Integer
 
 -- | a/the special register to store the last sound played
 --soundRegister :: Char
@@ -56,56 +59,95 @@ input :: [Assembler]
 input = inputRaw "input/Day18input.txt"
 
 -- | excute the snd (send) instruction
-snd' :: Char -> State -> IO State
-snd' r (Running tid pc rs rc wc cnt) = atomically $ do
-  let v = M.findWithDefault 0 r rs
-  writeTChan wc v
-  i <- readTVar cnt
-  trace ("snd:" ++ show tid ++ ":" ++ show v ++ ":" ++ show i) $ modifyTVar cnt (+1)
-  return $ Running tid (pc + 1) rs rc wc cnt
-snd' _ (Done _) = error "Unknown state"
+snd' :: Char -> IO State -> IO State
+snd' r s = do
+  s' <- s
+  case s' of
+    Done _ -> error "Unknown state"
+    Running tid pc rs rc wc cnt -> atomically $ do
+      let v = M.findWithDefault 0 r rs
+      writeTChan wc v
+      i <- readTVar cnt
+      trace ("snd:" ++ show tid ++ ":" ++ show v ++ ":" ++ show i) $ modifyTVar cnt (+1)
+      return $ Running tid (pc + 1) rs rc wc cnt
 
 -- | execute the set instruction
-set' :: Char -> Value -> State -> IO State
-set' r (RegisterValue i) (Running tid pc rs rc wc cnt) = return $ trace ("set:" ++ show tid ++ ":" ++ show pc) $ Running tid (pc + 1) (M.insert r i rs) rc wc cnt
-set' r (Register ri) (Running tid pc rs rc wc cnt) = return $ trace ("set:" ++ show tid ++ ":" ++ show pc) $ Running tid (pc + 1) (M.insert r (M.findWithDefault 0 ri rs) rs) rc wc cnt
-set' _ _ (Done _) = error "Unknown state"
+set' :: Char -> Value -> IO State -> IO State
+set' r (RegisterValue i) s = do
+  s' <- s
+  case s' of
+    Done _ -> error "Unknown state"
+    Running tid pc rs rc wc cnt -> return $ trace ("set:" ++ show tid ++ ":" ++ show pc) $ Running tid (pc + 1) (M.insert r i rs) rc wc cnt
+set' r (Register ri) s = do
+  s' <- s
+  case s' of
+    Done _ -> error "Unknown state"
+    Running tid pc rs rc wc cnt -> return $ trace ("set:" ++ show tid ++ ":" ++ show pc) $ Running tid (pc + 1) (M.insert r (M.findWithDefault 0 ri rs) rs) rc wc cnt
 
 -- | execute the add instruction
-add' :: Char -> Value -> State -> IO State
-add' r (RegisterValue i) (Running tid pc rs rc wc cnt) = return $ trace ("add:" ++ show tid ++ ":" ++ show pc) $ Running tid (pc + 1) (M.insert r ((M.findWithDefault 0 r rs) + i) rs) rc wc cnt
-add' r (Register ri) (Running tid pc rs rc wc cnt) = return $ trace ("add:" ++ show tid ++ ":" ++ show pc) $ Running tid (pc + 1) (M.insert r ((M.findWithDefault 0 r rs) + (M.findWithDefault 0 ri rs)) rs) rc wc cnt
-add' _ _ (Done _) = error "Unknown state"
+add' :: Char -> Value -> IO State -> IO State
+add' r (RegisterValue i) s = do
+  s' <- s
+  case s' of
+    Done _ -> error "Unknown state"
+    Running tid pc rs rc wc cnt -> return $ trace ("add:" ++ show tid ++ ":" ++ show pc) $ Running tid (pc + 1) (M.insert r ((M.findWithDefault 0 r rs) + i) rs) rc wc cnt
+add' r (Register ri) s = do
+  s' <- s
+  case s' of
+    Done _ -> error "Unknown state"
+    Running tid pc rs rc wc cnt -> return $ trace ("add:" ++ show tid ++ ":" ++ show pc) $ Running tid (pc + 1) (M.insert r ((M.findWithDefault 0 r rs) + (M.findWithDefault 0 ri rs)) rs) rc wc cnt
 
 -- | execute the mul instruction
-mul' :: Char -> Value -> State -> IO State
-mul' r (RegisterValue i) (Running tid pc rs rc wc cnt) = return $ trace ("mul:" ++ show tid ++ ":" ++ show pc) $ Running tid (pc + 1) (M.insert r ((M.findWithDefault 0 r rs) * i) rs) rc wc cnt
-mul' r (Register ri) (Running tid pc rs rc wc cnt) = return $ trace ("mul:" ++ show tid ++ ":" ++ show pc) $ Running tid (pc + 1) (M.insert r ((M.findWithDefault 0 r rs) * (M.findWithDefault 0 ri rs)) rs) rc wc cnt
-mul' _ _ (Done _) = error "Unknown state"
+mul' :: Char -> Value -> IO State -> IO State
+mul' r (RegisterValue i) s = do
+  s' <- s
+  case s' of
+    Done _ -> error "Unknown state"
+    Running tid pc rs rc wc cnt -> return $ trace ("mul:" ++ show tid ++ ":" ++ show pc) $ Running tid (pc + 1) (M.insert r ((M.findWithDefault 0 r rs) * i) rs) rc wc cnt
+mul' r (Register ri) s = do
+  s' <- s
+  case s' of
+    Done _ -> error "Unknown state"
+    Running tid pc rs rc wc cnt -> return $ trace ("mul:" ++ show tid ++ ":" ++ show pc) $ Running tid (pc + 1) (M.insert r ((M.findWithDefault 0 r rs) * (M.findWithDefault 0 ri rs)) rs) rc wc cnt
 
 -- | execute the mod instruction
-mod' :: Char -> Value -> State -> IO State
-mod' r (RegisterValue i) (Running tid pc rs rc wc cnt) = return $ trace ("mod:" ++ show tid ++ ":" ++ show pc) $ Running tid (pc + 1) (M.insert r (mod (M.findWithDefault 0 r rs) i) rs) rc wc cnt
-mod' r (Register ri) (Running tid pc rs rc wc cnt) = return $ trace ("mod:" ++ show tid ++ ":" ++ show pc) $ Running tid (pc + 1) (M.insert r (mod (M.findWithDefault 0 r rs) (M.findWithDefault 0 ri rs)) rs) rc wc cnt
-mod' _ _ (Done _) = error "Unknown state"
+mod' :: Char -> Value -> IO State -> IO State
+mod' r (RegisterValue i) s = do
+  s' <- s
+  case s' of
+    Done _ -> error "Unknown state"
+    Running tid pc rs rc wc cnt -> return $ trace ("mod:" ++ show tid ++ ":" ++ show pc) $ Running tid (pc + 1) (M.insert r (mod (M.findWithDefault 0 r rs) i) rs) rc wc cnt
+mod' r (Register ri) s = do
+  s' <- s
+  case s' of
+    Done _ -> error "Unknown state"
+    Running tid pc rs rc wc cnt -> return $ trace ("mod:" ++ show tid ++ ":" ++ show pc) $ Running tid (pc + 1) (M.insert r (mod (M.findWithDefault 0 r rs) (M.findWithDefault 0 ri rs)) rs) rc wc cnt
 
 -- | execute the rcv (receive) instruction
-rcv' :: Char -> State -> IO State
-rcv' r (Running tid pc rs rc wc cnt) = atomically $ do
-  v <- readTChan rc
-  trace ("rcv:" ++ show tid ++ ":" ++ show v) $ return ()
-  return $ Running tid (pc + 1) (M.insert r v rs) rc wc cnt
-rcv' _ (Done _) = error "Unknown state"
+rcv' :: Char -> IO State -> IO State
+rcv' r s = do
+  s' <- s
+  case s' of
+    Done _ -> error "Unknown state"
+    Running tid pc rs rc wc cnt -> atomically $ do
+      v <- readTChan rc
+      trace ("rcv:" ++ show tid ++ ":" ++ show v) $ return ()
+      return $ Running tid (pc + 1) (M.insert r v rs) rc wc cnt
 
 -- | execute the jgz (jump, if greater than zero) instruction
-jgz' :: Char -> Value -> State -> IO State
-jgz' r (RegisterValue offset) (Running tid pc rs rc wc cnt)
-  | (M.findWithDefault 0 r rs) > 0 = return $ trace ("jgz:" ++ show tid ++ ":" ++ show pc) $ Running tid (pc + offset) rs rc wc cnt
-  | otherwise = return $ trace ("jgz:" ++ show tid ++ ":" ++ show pc) $ Running tid (pc + 1) rs rc wc cnt
-jgz' r (Register roffset) (Running tid pc rs rc wc cnt)
-  | (M.findWithDefault 0 r rs) > 0 = return $ trace ("jgz:" ++ show tid ++ ":" ++ show pc) $ Running tid (pc + (M.findWithDefault 0 roffset rs)) rs rc wc cnt
-  | otherwise = return $ trace ("jgz:" ++ show tid ++ ":" ++ show pc) $ Running tid (pc + 1) rs rc wc cnt
-jgz' _ _ (Done _) = error "Unknown state"
+jgz' :: Char -> Value -> IO State -> IO State
+jgz' r (RegisterValue offset) s = do
+  s' <- s
+  case s' of
+    Done _ -> error "Unknown state"
+    Running tid pc rs rc wc cnt | (M.findWithDefault 0 r rs) > 0 -> return $ trace ("jgz:" ++ show tid ++ ":" ++ show pc) $ Running tid (pc + offset) rs rc wc cnt
+    Running tid pc rs rc wc cnt -> return $ trace ("jgz:" ++ show tid ++ ":" ++ show pc) $ Running tid (pc + 1) rs rc wc cnt
+jgz' r (Register roffset) s = do
+  s' <- s
+  case s' of
+    Done _ -> error "Unknown state"
+    Running tid pc rs rc wc cnt | (M.findWithDefault 0 r rs) > 0 -> return $ trace ("jgz:" ++ show tid ++ ":" ++ show pc) $ Running tid (pc + (M.findWithDefault 0 roffset rs)) rs rc wc cnt
+    Running tid pc rs rc wc cnt -> return $ trace ("jgz:" ++ show tid ++ ":" ++ show pc) $ Running tid (pc + 1) rs rc wc cnt
 
 -- | get the register from the argument
 getRegister :: String -> Char
@@ -138,12 +180,10 @@ run currentState program = do
   cs <- currentState
   case cs of
     (Done _) -> currentState
-    (Running tid pc _ _ _ _) -> trace ("pc:" ++ show tid ++ ":" ++ show pc) $ run (currentState >>= nextState) program
-      where
-        nextState cs'@(Running tid' pc' _ _ _ _)
-          | inRange (0, (length program)-1) (fromInteger pc') = trace ("ns:" ++ show tid' ++ ":" ++ show pc') $ (program !! (fromInteger pc')) cs'
-          | otherwise = return $ Done 0
-        nextState (Done _) = error "This should never happen (because I pattern match on Done above)."
+    (Running tid pc _ _ _ _) -> trace ("pc:" ++ show tid ++ ":" ++ show pc) $ run nextState program where
+      nextState
+        | inRange (0, (length program)-1) (fromInteger pc) = trace ("ns:" ++ show tid ++ ":" ++ show pc) $ (program !! (fromInteger pc)) currentState
+        | otherwise = return $ Done 0
 
 {-
   nextState where
@@ -167,6 +207,19 @@ main = do
   putStrLn $ show result
 -}
 
+atom :: STM S -> STM S
+atom s = do
+  s' <- s
+  case s' of
+    S str i -> return $ S str (i + 1)
+
+run' :: IO S -> IO S
+run' s = do
+  s' <- s
+  case s' of
+    S str i | i < 10 -> trace (show str ++ ":" ++ show i) $ run' (atomically (atom (return s')))
+    S _ _ -> return $ S "Done" 0
+
 -- | main
 main :: IO ()
 main = do
@@ -178,6 +231,8 @@ main = do
   counterA <- newTVarIO 0
   counterB <- newTVarIO 0
   let is = instructions input
+  S str i <- run' (return $ S "test" 0)
+  trace ((show str) ++ ":" ++ (show i)) $ return ()
   let pA = run (return $ Running 0 0 (M.insert 'p' 0 M.empty) a2b b2a counterA) is
   let pB = run (return $ Running 1 0 (M.insert 'p' 1 M.empty) b2a a2b counterB) is
   result :: Either BlockedIndefinitelyOnSTM (State, State) <- try $ concurrently pB pA

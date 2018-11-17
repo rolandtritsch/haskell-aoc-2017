@@ -7,8 +7,9 @@ import Control.Exception.Base (evaluate)
 import Day20
 
 -- | solve the puzzle
-solve :: [String] -> Integer
-solve _ = 243
+solve :: [Particle] -> Integer
+solve ps = findClosest atEndOfSimlation where
+  atEndOfSimlation = runSimulation 1000 ps
 
 -- | main
 main :: IO ()

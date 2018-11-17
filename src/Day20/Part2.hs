@@ -7,7 +7,7 @@ import Control.Exception.Base (evaluate)
 import Day20
 
 -- | solve the puzzle
-solve :: [String] -> Integer
+solve :: [Particle] -> Integer
 solve _ = 648
 
 -- | main

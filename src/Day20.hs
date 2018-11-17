@@ -15,19 +15,23 @@ And then *just* take the size of the resulting list.
 -}
 module Day20 where
 
-import Data.Maybe (fromJust)
-import Data.List (elemIndex)
 import Data.List.Split (splitOneOf)
 
 import Util
 
-data Position = Position Integer Integer Integer deriving (Show, Eq)
+data Position = Position Integer Integer Integer deriving (Show, Eq, Ord)
 
 data Velocity = Velocity Integer Integer Integer deriving (Show, Eq)
 
 data Acceleration = Acceleration Integer Integer Integer deriving (Show, Eq)
 
-data Particle = Particle Position Velocity Acceleration deriving (Show, Eq)
+data Particle = Particle Position Velocity Acceleration deriving (Show)
+
+instance Eq Particle where
+  (Particle p _ _) == (Particle p' _ _) = p == p'
+
+instance Ord Particle where
+  compare (Particle p _ _) (Particle p' _ _) = compare p p'
 
 -- | calculate new position (for a given position), using a given velocity.
 addVel2Pos :: Velocity -> Position -> Position
@@ -56,15 +60,3 @@ input = (map tokenize . inputRaw) "input/Day20input.txt" where
     pos = Position (read $ tokens !! 1) (read $ tokens !! 2) (read $ tokens !! 3)
     vel = Velocity (read $ tokens !! 6) (read $ tokens !! 7) (read $ tokens !! 8)
     acc = Acceleration (read $ tokens !! 11) (read $ tokens !! 12) (read $ tokens !! 13)
-
--- | (for the given particles) find the index of the particle with
--- the smallest distance (to/from the origin (0, 0, 0)).
-findClosest :: [Particle] -> Integer
-findClosest ps =  toInteger $ fromJust $ elemIndex (minimum distances) distances where
-  distances = (map distanceFromOrigin . map position) ps where
-    position (Particle p _ _) = p
-
--- | run (the simulation) for a given number of ticks.
-runSimulation :: Integer -> [Particle] -> [Particle]
-runSimulation 0 ps = ps
-runSimulation depth ps = runSimulation (depth - 1) (map tick ps)

@@ -18,8 +18,7 @@ dependencies:
 - base >= 4.7 && < 5
 - containers
 - timeit
-- async
-- stm
+- Unique
 
 library:
   source-dirs:       src
@@ -30,7 +29,6 @@ library:
   - text
   - split
   - hexstring
-  - Unique
 
 executables:
   haskell-aoc:
@@ -403,6 +401,24 @@ executables:
     dependencies:
     - haskell-aoc
 
+  haskell-aoc-day21p1:
+    main:            src/Day21/Part1.hs
+    ghc-options:
+    - -main-is Day21.Part1.main
+    - -O2 -threaded
+    - -Wall -Werror
+    dependencies:
+    - haskell-aoc
+
+  haskell-aoc-day21p2:
+    main:            src/Day21/Part2.hs
+    ghc-options:
+    - -main-is Day21.Part2.main
+    - -O2 -threaded
+    - -Wall -Werror
+    dependencies:
+    - haskell-aoc
+
 tests:
   haskell-aoc-test:
     main:            Spec.hs
@@ -647,6 +663,18 @@ tests:
     other-modules:   Day20Spec
     ghc-options:
     - -main-is Day20Spec.run
+    - -O2 -threaded
+    - -Wall -Werror
+    dependencies:
+    - haskell-aoc
+    - hspec
+
+  haskell-aoc-test-day21:
+    main:            Day21Spec.hs
+    source-dirs:     test
+    other-modules:   Day21Spec
+    ghc-options:
+    - -main-is Day21Spec.run
     - -O2 -threaded
     - -Wall -Werror
     dependencies:

@@ -19,6 +19,7 @@ dependencies:
 - containers
 - timeit
 - Unique
+- array
 
 library:
   source-dirs:       src

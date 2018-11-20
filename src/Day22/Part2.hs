@@ -7,7 +7,7 @@ import Control.Exception.Base (evaluate)
 import Day22
 
 -- | solve the puzzle
-solve :: [String] -> Int
+solve :: GridState -> Int
 solve _ = 2511424
 
 -- | main

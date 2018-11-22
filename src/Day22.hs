@@ -15,7 +15,9 @@ module Day22 where
 
 import Prelude hiding (Left, Right)
 
---import Data.Array
+--import Debug.Trace (trace)
+
+import Data.Array
 
 import Util
 
@@ -35,22 +37,37 @@ data NodeState
   | Flagged
   deriving (Show, Eq)
 
-type Grid = [[NodeState]]
+type GridArray = Array (Int, Int) NodeState
 
-data GridState = GridState Grid Position Direction Int deriving (Show, Eq)
+data Grid = Grid GridArray Position Direction Int deriving (Show, Eq)
 
--- | read the input.
-input :: GridState
-input = GridState grid (midpoint grid) Up 0 where
-  grid = (map processLine . inputRaw) "input/Day22input.txt" where
-    processLine l = map processNode l where
-      processNode '.' = Clean
-      processNode '#' = Infected
-      processNode 'W' = Weakend
-      processNode 'F' = Flagged
-      processNode _ = error "Unknown state char detected."
-  midpoint g = Position mp mp where
-    mp = div (length g) 2
+-- | the dimension of the grid.
+dimension :: Int
+dimension = 500
+
+-- | buil the first/start grid.
+input :: Grid
+input = Grid (buildGrid inputGrid) (Position 0 0) Up 0
+
+-- | read the grid from the input file.
+inputGrid :: [[NodeState]]
+inputGrid = (map processLine . inputRaw) "input/Day22input.txt" where
+  processLine l = map processNode l where
+    processNode '.' = Clean
+    processNode '#' = Infected
+    processNode 'W' = Weakend
+    processNode 'F' = Flagged
+    processNode _ = error "Unknown state char detected."
+
+-- | build a/the (array-based) grid from the (list-based) input grid.
+buildGrid :: [[NodeState]] -> GridArray
+buildGrid ig = grid where
+  dim = ((negate dimension, negate dimension), (dimension, dimension))
+  dimRange = [(negate dimension)..dimension]
+  cleanGrid = array (dim) [((r, c), Clean) | r <- dimRange, c <- dimRange]
+  midpoint = div (length ig) 2
+  grid = cleanGrid // [((r - midpoint, c - midpoint), getStatus r c) | r <- [0..(length ig)-1], c <- [0..(length ig)-1]] where
+    getStatus r' c' = (ig !! r') !! c'
 
 -- | turn left.
 turnLeft :: Direction -> Direction
@@ -67,34 +84,29 @@ turnRight Left = Up
 turnRight Right = Down
 
 -- | check state of the node.
-inState :: Grid -> Position -> NodeState -> Bool
-inState ss (Position row col) s = (ss !! row) !! col == s
+inState :: GridArray -> Position -> NodeState -> Bool
+inState ga (Position r c) s = (ga ! (r, c)) == s
 
 -- | update the state grid with a new state.
-update :: Position -> NodeState -> Grid -> Grid
-update (Position r c) s ss =  headRows ++ [newRow] ++ tailRows where
-  headRows = take r ss
-  tailRows = drop (r + 1) ss
-  oldRow = ss !! r
-  newRow = headCols ++ [s] ++ tailCols where
-    headCols = take c oldRow
-    tailCols = drop (c + 1) oldRow
+update :: Position -> NodeState -> GridArray -> GridArray
+update (Position r c) s ga = ga // [((r, c), s)]
 
 -- | do a burst.
-burst :: GridState -> GridState
-burst (GridState g p d i)
-  | inState g p Infected = GridState g p (turnRight d) i
-  | inState g p Clean = GridState (update p Infected g) p (turnLeft d) (i + 1)
-  | otherwise = GridState (update p Clean g) p (turnLeft d) i
+burst :: Grid -> Grid
+burst (Grid g p d i)
+  | inState g p Infected = Grid (update p Clean g) p (turnRight d) i
+  | inState g p Clean = Grid (update p Infected g) p (turnLeft d) (i + 1)
+  | otherwise = error "Unknown state"
 
 -- | do one move/step forward.
-move :: GridState -> GridState
-move (GridState g (Position row col) Up i) = GridState g (Position (row - 1) col) Up i
-move (GridState g (Position row col) Down i) = GridState g (Position (row + 1) col) Down i
-move (GridState g (Position row col) Left i) = GridState g (Position  row (col - 1)) Left i
-move (GridState g (Position row col) Right i) = GridState g (Position row (col + 1)) Right i
+move :: Grid -> Grid
+move (Grid g (Position row col) Up i) = Grid g (Position (row - 1) col) Up i
+move (Grid g (Position row col) Down i) = Grid g (Position (row + 1) col) Down i
+move (Grid g (Position row col) Left i) = Grid g (Position  row (col - 1)) Left i
+move (Grid g (Position row col) Right i) = Grid g (Position row (col + 1)) Right i
 
 -- | run the simulation for a number of bursts.
-runSimulation :: Int -> GridState -> GridState
+runSimulation :: Int -> Grid -> Grid
 runSimulation 0 g = g
 runSimulation bursts g = runSimulation (bursts - 1) (move $ burst g)
+--runSimulation bursts g = trace (show bursts ++ ":" ++ show g) $ runSimulation (bursts - 1) (move $ burst g)

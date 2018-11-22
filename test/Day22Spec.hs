@@ -1,8 +1,10 @@
 module Day22Spec where
 
-import Test.Hspec
-
 import Prelude hiding (Left, Right)
+
+import Data.Array
+
+import Test.Hspec
 
 import Day22
 import qualified Day22.Part1 as P1
@@ -11,10 +13,9 @@ import qualified Day22.Part2 as P2
 run :: IO ()
 run = hspec $ do
   describe "input" $ do
-    it "should read the (raw) input" $ do
-      let (GridState grid mp _ _) = input
-      head grid `shouldBe` [Clean,Clean,Clean,Infected,Infected,Infected,Clean,Infected,Clean,Infected,Clean,Infected,Infected,Clean,Clean,Clean,Infected,Infected,Clean,Infected,Clean,Clean,Infected,Infected,Clean]
-      mp `shouldBe` (Position 12 12)
+    it "should read the input" $ do
+      let (Grid grid _ _ _) = input
+      grid ! (0,0) `shouldBe` Infected
 
   describe "runSimulation" $ do
     it "should process the testcase(s) correctly" $ do
@@ -23,14 +24,39 @@ run = hspec $ do
             [Infected, Clean, Clean],
             [Clean, Clean, Clean]
             ]
-      let test = GridState testGrid (Position 1 1) Up 0
+      let test = Grid (buildGrid testGrid) (Position 0 0) Up 0
+
       let burst1Grid = [
             [Clean, Clean, Infected],
             [Infected, Infected, Clean],
             [Clean, Clean, Clean]
             ]
-      let burst1 = GridState burst1Grid (Position 1 0) Left 1
-      runSimulation 7 test `shouldBe` burst1
+      let burst1 = Grid (buildGrid burst1Grid) (Position 0 (-1)) Left 1
+      runSimulation 1 test `shouldBe` burst1
+
+      let burst7Grid = [
+            [Clean, Clean, Clean, Clean, Clean],
+            [Infected, Clean, Clean, Infected, Clean],
+            [Infected, Infected, Infected, Clean, Clean],
+            [Clean, Clean, Clean, Clean, Clean],
+            [Clean, Clean, Clean, Clean, Clean]
+            ]
+      let burst7 = Grid (buildGrid burst7Grid) (Position (-1) 0) Right 5
+      runSimulation 7 test `shouldBe` burst7
+
+      let burst70Grid = [
+            [Clean, Clean, Clean, Clean, Clean, Infected, Infected, Clean, Clean],
+            [Clean, Clean, Clean, Clean, Infected, Clean, Clean, Infected, Clean],
+            [Clean, Clean, Clean, Infected, Clean, Clean, Clean, Clean, Infected],
+            [Clean, Clean, Infected, Clean, Infected, Clean, Clean, Clean, Infected],
+            [Clean, Clean, Infected, Clean, Infected, Clean, Clean, Infected, Clean],
+            [Clean, Clean, Clean, Clean, Clean, Infected, Infected, Clean, Clean],
+            [Clean, Clean, Clean, Clean, Clean, Clean, Clean, Clean, Clean],
+            [Clean, Clean, Clean, Clean, Clean, Clean, Clean, Clean, Clean],
+            [Clean, Clean, Clean, Clean, Clean, Clean, Clean, Clean, Clean]
+            ]
+      let burst70 = Grid (buildGrid burst70Grid) (Position (-1) 1) Up 41
+      runSimulation 70 test `shouldBe` burst70
 
   describe "solve - Part1" $ do
     it "should solve the puzzle" $ do

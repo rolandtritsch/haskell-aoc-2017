@@ -7,9 +7,9 @@ import Control.Exception.Base (evaluate)
 import Day22
 
 -- | solve the puzzle
-solve :: GridState -> Int
+solve :: Grid -> Int
 solve grid = numberOfNodesThatGotInfected where
-  (GridState _ _ _ numberOfNodesThatGotInfected) = runSimulation 10000 grid
+  (Grid _ _ _ numberOfNodesThatGotInfected) = runSimulation 10000 grid
 
 -- | main
 main :: IO ()

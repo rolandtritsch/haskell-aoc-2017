@@ -15,8 +15,6 @@ module Day22 where
 
 import Prelude hiding (Left, Right)
 
---import Debug.Trace (trace)
-
 import Data.Array
 
 import Util
@@ -55,8 +53,6 @@ inputGrid = (map processLine . inputRaw) "input/Day22input.txt" where
   processLine l = map processNode l where
     processNode '.' = Clean
     processNode '#' = Infected
-    processNode 'W' = Weakend
-    processNode 'F' = Flagged
     processNode _ = error "Unknown state char detected."
 
 -- | build a/the (array-based) grid from the (list-based) input grid.
@@ -91,13 +87,6 @@ inState ga (Position r c) s = (ga ! (r, c)) == s
 update :: Position -> NodeState -> GridArray -> GridArray
 update (Position r c) s ga = ga // [((r, c), s)]
 
--- | do a burst.
-burst :: Grid -> Grid
-burst (Grid g p d i)
-  | inState g p Infected = Grid (update p Clean g) p (turnRight d) i
-  | inState g p Clean = Grid (update p Infected g) p (turnLeft d) (i + 1)
-  | otherwise = error "Unknown state"
-
 -- | do one move/step forward.
 move :: Grid -> Grid
 move (Grid g (Position row col) Up i) = Grid g (Position (row - 1) col) Up i
@@ -105,8 +94,7 @@ move (Grid g (Position row col) Down i) = Grid g (Position (row + 1) col) Down i
 move (Grid g (Position row col) Left i) = Grid g (Position  row (col - 1)) Left i
 move (Grid g (Position row col) Right i) = Grid g (Position row (col + 1)) Right i
 
--- | run the simulation for a number of bursts.
-runSimulation :: Int -> Grid -> Grid
-runSimulation 0 g = g
-runSimulation bursts g = runSimulation (bursts - 1) (move $ burst g)
---runSimulation bursts g = trace (show bursts ++ ":" ++ show g) $ runSimulation (bursts - 1) (move $ burst g)
+-- | run the simulation for a number of bursts (with a/the burst function b).
+runSimulation :: Int -> (Grid -> Grid) -> Grid -> Grid
+runSimulation 0 _ g = g
+runSimulation bursts burst g = runSimulation (bursts - 1) burst (move $ burst g)

@@ -32,7 +32,7 @@ run = hspec $ do
             [Clean, Clean, Clean]
             ]
       let burst1 = Grid (buildGrid burst1Grid) (Position 0 (-1)) Left 1
-      runSimulation 1 test `shouldBe` burst1
+      runSimulation 1 P1.burst test `shouldBe` burst1
 
       let burst7Grid = [
             [Clean, Clean, Clean, Clean, Clean],
@@ -42,7 +42,7 @@ run = hspec $ do
             [Clean, Clean, Clean, Clean, Clean]
             ]
       let burst7 = Grid (buildGrid burst7Grid) (Position (-1) 0) Right 5
-      runSimulation 7 test `shouldBe` burst7
+      runSimulation 7 P1.burst test `shouldBe` burst7
 
       let burst70Grid = [
             [Clean, Clean, Clean, Clean, Clean, Infected, Infected, Clean, Clean],
@@ -56,7 +56,7 @@ run = hspec $ do
             [Clean, Clean, Clean, Clean, Clean, Clean, Clean, Clean, Clean]
             ]
       let burst70 = Grid (buildGrid burst70Grid) (Position (-1) 1) Up 41
-      runSimulation 70 test `shouldBe` burst70
+      runSimulation 70 P1.burst test `shouldBe` burst70
 
   describe "solve - Part1" $ do
     it "should solve the puzzle" $ do

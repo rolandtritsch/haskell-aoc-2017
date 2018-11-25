@@ -456,6 +456,24 @@ executables:
     dependencies:
     - haskell-aoc
 
+  haskell-aoc-day24p1:
+    main:            src/Day24/Part1.hs
+    ghc-options:
+    - -main-is Day24.Part1.main
+    - -O2 -threaded
+    - -Wall -Werror
+    dependencies:
+    - haskell-aoc
+
+  haskell-aoc-day24p2:
+    main:            src/Day24/Part2.hs
+    ghc-options:
+    - -main-is Day24.Part2.main
+    - -O2 -threaded
+    - -Wall -Werror
+    dependencies:
+    - haskell-aoc
+
 tests:
   haskell-aoc-test:
     main:            Spec.hs
@@ -736,6 +754,18 @@ tests:
     other-modules:   Day23Spec
     ghc-options:
     - -main-is Day23Spec.run
+    - -O2 -threaded
+    - -Wall -Werror
+    dependencies:
+    - haskell-aoc
+    - hspec
+
+  haskell-aoc-test-day24:
+    main:            Day24Spec.hs
+    source-dirs:     test
+    other-modules:   Day24Spec
+    ghc-options:
+    - -main-is Day24Spec.run
     - -O2 -threaded
     - -Wall -Werror
     dependencies:

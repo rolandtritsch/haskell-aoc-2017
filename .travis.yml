@@ -123,7 +123,5 @@ env:
 
 matrix:
   exclude:
-    - env: DAY=14 PART=2 TYPE=EXE
-    - env: DAY=14 PART=2 TYPE=TEST
     - env: DAY=18 PART=2 TYPE=EXE
     - env: DAY=18 PART=2 TYPE=TEST

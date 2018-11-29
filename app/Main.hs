@@ -27,7 +27,7 @@ import qualified Day12.Part2 as D12P2
 import qualified Day13.Part1 as D13P1
 import qualified Day13.Part2 as D13P2
 import qualified Day14.Part1 as D14P1
-import qualified Day14.Part2 as D14P2
+--import qualified Day14.Part2 as D14P2
 import qualified Day15.Part1 as D15P1
 import qualified Day15.Part2 as D15P2
 import qualified Day16.Part1 as D16P1
@@ -35,7 +35,7 @@ import qualified Day16.Part2 as D16P2
 import qualified Day17.Part1 as D17P1
 import qualified Day17.Part2 as D17P2
 import qualified Day18.Part1 as D18P1
-import qualified Day18.Part2 as D18P2
+--import qualified Day18.Part2 as D18P2
 import qualified Day19.Part1 as D19P1
 import qualified Day19.Part2 as D19P2
 import qualified Day20.Part1 as D20P1
@@ -79,7 +79,7 @@ main = do
   D13P1.main
   D13P2.main
   D14P1.main
-  D14P2.main
+  --D14P2.main
   D15P1.main
   D15P2.main
   D16P1.main
@@ -87,7 +87,7 @@ main = do
   D17P1.main
   D17P2.main
   D18P1.main
-  D18P2.main
+  --D18P2.main
   D19P1.main
   D19P2.main
   D20P1.main

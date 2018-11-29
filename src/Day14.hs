@@ -80,5 +80,7 @@ findRegion grid alreadySeen currentSquare@(row, col)
 -- | find all regions
 findRegions :: Grid -> S.Set (S.Set (Int, Int))
 findRegions grid = S.filter (not . S.null) $ foldl findRegions' S.empty coordinates where
-  findRegions' regionsSoFar currentSquare = S.insert (findRegion grid (S.unions $ S.toList regionsSoFar) currentSquare) regionsSoFar
+  findRegions' regionsSoFar currentSquare = if (S.member currentSquare alreadySeen) then regionsSoFar else S.insert currentRegion regionsSoFar where
+    alreadySeen = S.unions $ S.toList regionsSoFar
+    currentRegion = findRegion grid S.empty currentSquare
   coordinates = [(row, col) | row <- [0..(length grid) -1], col <- [0..(length (head grid)) - 1]]

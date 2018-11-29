@@ -120,8 +120,3 @@ env:
   - DAY=24 PART=1 TYPE=TEST
   - DAY=24 PART=2 TYPE=TEST
   - DAY=25 PART=1 TYPE=TEST
-
-matrix:
-  exclude:
-    - env: DAY=14 PART=2 TYPE=EXE
-    - env: DAY=14 PART=2 TYPE=TEST
